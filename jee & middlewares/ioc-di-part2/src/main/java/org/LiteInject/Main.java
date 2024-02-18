@@ -8,7 +8,7 @@ public class Main {
         System.out.println("Hello world!");
         Context context = new AnnotationContext("org.LiteInject");
 
-        Test bean = (Test) context.getBean(Test.class.getName());
+        ITest bean = context.getBean(ITest.class);
         bean.test();
 
 
