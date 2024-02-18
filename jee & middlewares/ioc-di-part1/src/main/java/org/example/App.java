@@ -6,14 +6,12 @@ import org.example.service.IMetier;
 import org.example.service.ServiceImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.Scanner;
 
-@ComponentScan(value = "org.example.**")
 public class App 
 {
     public static void main( String[] args )
@@ -43,7 +41,7 @@ public class App
             }
             case SPRING_ANNOTATION -> {
                 System.out.println("Dependency injection with spring annotation");
-                ApplicationContext context = new AnnotationConfigApplicationContext(App.class);
+                ApplicationContext context = new AnnotationConfigApplicationContext("org.example.dao", "org.example.service");
                 iMetier = context.getBean(IMetier.class);
             }
             case SPRING_XML -> {
