@@ -1,6 +1,7 @@
 package org.LiteInject.core;
 
 import org.LiteInject.Bean;
+import org.LiteInject.Strategy;
 import org.apache.maven.surefire.shade.org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
@@ -58,7 +59,12 @@ public class AnnotationContext extends Context {
                 Object[] objects = new Object[parameters.length];
                 for (int i = 0; i < parameters.length; i++) {
                     classes[i] = parameters[i].getType();
-                    objects[i] = super.getBean(parameters[i].getType());
+                    if (parameters[i].isAnnotationPresent(Strategy.class)) {
+                        Strategy strategy = parameters[i].getAnnotation(Strategy.class);
+                        objects[i] = super.getBean(strategy.name());
+                    } else {
+                        objects[i] = super.getBean(parameters[i].getType());
+                    }
                 }
                 instance = clazz.getDeclaredConstructor(classes).newInstance(objects);
             } else {
