@@ -46,15 +46,24 @@ public class AnnotationContext extends Context {
     private void initInstance(Pair<Class<?>, Bean> classBeanPair) {
         var name = classBeanPair.getRight().name();
         try {
+            Object instance;
             Class<?> clazz = classBeanPair.getLeft();
-            Constructor<?> declaredConstructor = clazz.getDeclaredConstructor();
-            Parameter[] parameters = declaredConstructor.getParameters();
+            Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+            if (constructors.length > 1)
+                throw new RuntimeException("expected only one constructor");
+            Constructor<?> constructor = constructors[0];
+            Parameter[] parameters = constructor.getParameters();
             if (parameters.length > 0) {
-                for (Parameter arg: parameters) {
-                    System.out.println(arg.getClass().getName());
+                Class<?>[] classes = new Class[parameters.length];
+                Object[] objects = new Object[parameters.length];
+                for (int i = 0; i < parameters.length; i++) {
+                    classes[i] = parameters[i].getType();
+                    objects[i] = super.getBean(parameters[i].getType());
                 }
+                instance = clazz.getDeclaredConstructor(classes).newInstance(objects);
+            } else {
+                instance = constructor.newInstance();
             }
-            Object instance = clazz.getDeclaredConstructor().newInstance();
             if (name.isBlank())
                 name = instance.getClass().getName();
             addBean(name, instance);
