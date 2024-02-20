@@ -1,8 +1,8 @@
 package org.example.dao;
 
-import org.LiteInject.Bean;
+import org.LiteInject.annotation.Bean;
 
-@Bean
+@Bean(name = "mongo")
 public class IDaoImpl implements IDao {
     @Override
     public double getData() {

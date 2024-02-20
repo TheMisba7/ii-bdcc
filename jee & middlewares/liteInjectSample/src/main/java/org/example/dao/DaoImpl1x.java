@@ -1,6 +1,6 @@
 package org.example.dao;
 
-import org.LiteInject.Bean;
+import org.LiteInject.annotation.Bean;
 
 @Bean(name = "mysqlServer")
 public class DaoImpl1x implements IDao {
