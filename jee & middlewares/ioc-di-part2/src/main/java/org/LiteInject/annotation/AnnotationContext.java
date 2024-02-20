@@ -1,8 +1,6 @@
-package org.LiteInject.core;
+package org.LiteInject.annotation;
 
-import org.LiteInject.Bean;
-import org.LiteInject.Inject;
-import org.LiteInject.Strategy;
+import org.LiteInject.core.Context;
 
 import java.io.File;
 import java.io.IOException;

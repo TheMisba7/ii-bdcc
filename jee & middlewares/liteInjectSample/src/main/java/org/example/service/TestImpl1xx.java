@@ -1,6 +1,6 @@
 package org.example.service;
 
-import org.LiteInject.Bean;
+import org.LiteInject.annotation.Bean;
 
 @Bean(name = "TestImpl1xx")
 public class TestImpl1xx implements ITest {

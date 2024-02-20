@@ -1,7 +1,7 @@
 package org.example.service;
 
-import org.LiteInject.Bean;
-import org.LiteInject.Strategy;
+import org.LiteInject.annotation.Bean;
+import org.LiteInject.annotation.Strategy;
 import org.example.dao.IDao;
 @Bean
 public class ServiceImpl implements IService {

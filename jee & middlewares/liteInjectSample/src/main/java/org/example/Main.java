@@ -1,6 +1,6 @@
 package org.example;
 
-import org.LiteInject.core.AnnotationContext;
+import org.LiteInject.annotation.AnnotationContext;
 import org.example.service.IService;
 
 
