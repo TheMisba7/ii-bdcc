@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="beans">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="bean" type="bean" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="bean">
+        <xs:sequence>
+            <xs:element name="dependency" type="dependency" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="class" type="xs:string" use="required" />
+    </xs:complexType>
+
+    <xs:complexType name="dependency">
+            <xs:attribute name="ref" type="xs:string" use="required"/>
+            <xs:attribute name="class" type="xs:string" use="required"/>
+            <xs:attribute name="index" type="xs:int" use="required"/>
+    </xs:complexType>
+</xs:schema>
