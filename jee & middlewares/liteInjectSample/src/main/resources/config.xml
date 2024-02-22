@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.example.com/myapp"
+        xsi:schemaLocation="http://www.example.com/myapp lite-inject.xsd">
+    <bean id="test" class="org.example.service.TestImpl1xx"/>
+    <bean id="test11x" class="org.example.service.TestImpl11x"/>
+    <bean id="daoImp" class="org.example.dao.IDaoImpl"/>
+    <bean id="service" class="org.example.service.ServiceImpl">
+        <dependency ref="daoImp" class="org.example.dao.IDao" index="0"/>
+        <dependency ref="test11x" class="org.example.service.ITest" index="1"/>
+    </bean>
+</beans>
