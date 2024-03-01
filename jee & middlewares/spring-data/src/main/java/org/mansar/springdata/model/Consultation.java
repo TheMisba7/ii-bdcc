@@ -4,25 +4,20 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-import java.util.Set;
+import java.time.LocalDateTime;
 
 @Entity
-@NoArgsConstructor
 @Getter @Setter
-public class Patient {
+public class Consultation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private Date birthday;
-    private Boolean sick;
-    private Integer score;
-    @OneToMany
-    private Set<Meeting> meetings;
+    private LocalDateTime consultationDate;
+    private String report;
+    @OneToOne
+    private Meeting meeting;
 }

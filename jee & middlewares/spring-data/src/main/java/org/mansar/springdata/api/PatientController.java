@@ -1,4 +1,4 @@
-package org.mansar.springdata.web;
+package org.mansar.springdata.api;
 
 import org.mansar.springdata.app.PatientApp;
 import org.mansar.springdata.model.Patient;
