@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="/webjars/htmx.org/1.9.10/dist/htmx.min.js"></script>
+    <title>Patients</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="p-3">
+        <div class="card">
+            <div class="card-header">Liste Patients</div>
+            <div id="card-body" class="card-body" th:fragment="patientsFragment">
+                <form method="get" th:action="@{/patients}">
+                    <label>Keyword:</label>
+                    <input type="text" name="keyword" th:value="${keyword}">
+                    <button type="submit" class="btn btn-info">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th> <th>Nom</th> <th>Date</th> <th>Malade</th> <th>Score</th>
+                    </tr>
+                    <tr th:each="p:${patientsPage.getContent()}">
+                        <td th:text="${p.id}"></td>
+                        <td th:text="${p.name}"></td>
+                        <td th:text="${p.birthday}"></td>
+                        <td th:text="${p.sick}"></td>
+                        <td th:text="${p.score}"></td>
+                        <td>
+                            <a onclick="javascript:return confirm('Etes vous sure?')"
+                               href="#"
+                               hx-target="#card-body"
+                               th:attr="hx-delete= ${'/patients/' + p.id + '?page=' + currentPage + '&size=' + size + '&keyword=' + keyword}"
+                                class="btn btn-danger">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-success"
+                               th:href="@{/editPatient(id=${p.id})}">Edit</a>
+                        </td>
+                    </tr>
+                    </thead>
+                </table>
+                <ul class="nav nav-pills">
+                    <li th:each="v,item:${patientsPage.getTotalPages()}">
+                        <a th:href="@{/patients(page=${item.index},keyword=${keyword})}"
+                           th:class="${(currentPage==item.index)?'btn btn-info ms-1':'btn btn-outline-info ms-1'}"
+                           th:text="${1+item.index}"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
