@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="/webjars/htmx.org/1.9.10/dist/htmx.min.js"></script>
+    <title>Users</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="p-3">
+        <div class="card">
+            <div class="card-header">Users</div>
+            <div id="card-body" class="card-body" th:fragment="users">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th> <th>First Name</th> <th>Last Name</th> <th>Email</th>
+                    </tr>
+                    <tr th:each="user:${users}">
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.firstname}"></td>
+                        <td th:text="${user.lastname}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td>
+                            <a onclick="javascript:return confirm('Etes vous sure?')"
+                               href="#"
+                               hx-target="#card-body"
+                               th:attr="hx-delete= ${'/users/' + user.id}"
+                               class="btn btn-danger">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-success"
+                               th:href="@{/editUser(id=${user.id})}">Edit</a>
+                        </td>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

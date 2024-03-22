@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>New User</title>
+</head>
+<body>
+<div>
+    <div class="row mt-3">
+        <div class="col-md-6 offset-3">
+            <div class="card">
+                <div class="card-header">Create new user</div>
+                <div class="card-body">
+                    <div class="p-3">
+                        <form th:action="@{/users}" method="post">
+                            <div class="mb-2">
+                                <label class="form-label">first name</label>
+                                <input type="text" name="firstname" class="form-control">
+                                <span class="text-danger" th:errors="${user.firstname}"></span>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">last name</label>
+                                <input type="date" name="lastname" class="form-control">
+                                <span class="text-danger" th:errors="${user.lastname}"></span>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">email</label>
+                                <input type="text" name="email" class="form-control">
+                                <span class="text-danger" th:errors="${user.email}"></span>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">password</label>
+                                <input type="password" name="password" class="form-control">
+                                <span class="text-danger" th:errors="${user.password}"></span>
+                            </div>
+                            <div sec:authorize="hasRole('ADMIN')" class="mb-2">
+                                <label>roles</label>
+                                <th:block th:each="role: ${roles}">
+                                    <input type="checkbox" name="roleNames" th:value="${role.name}" >
+                                </th:block>
+                            </div>
+                            <button class="btn btn-success">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
