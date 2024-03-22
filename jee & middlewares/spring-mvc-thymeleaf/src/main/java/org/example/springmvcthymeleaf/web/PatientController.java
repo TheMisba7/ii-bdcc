@@ -1,10 +1,12 @@
 package org.example.springmvcthymeleaf.web;
 
+import jakarta.validation.Valid;
 import org.example.springmvcthymeleaf.app.PatientApp;
 import org.example.springmvcthymeleaf.model.Patient;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,7 +24,9 @@ public class PatientController {
         this.patientApp = patientApp;
     }
     @PostMapping("")
-    public String post(@ModelAttribute final Patient patient) {
+    public String post(@Valid @ModelAttribute("patient") final Patient patient, final BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "create-patient";
         patientApp.add(patient);
         return "redirect:/patients";
     }
@@ -46,7 +50,8 @@ public class PatientController {
     }
 
     @GetMapping("/new")
-    public String newPatient() {
+    public String newPatient(final Model model) {
+        model.addAttribute("patient", new Patient());
         return "create-patient";
     }
 
