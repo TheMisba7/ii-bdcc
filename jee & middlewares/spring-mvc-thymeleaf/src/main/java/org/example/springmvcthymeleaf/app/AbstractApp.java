@@ -25,8 +25,8 @@ public abstract class AbstractApp <R extends JpaRepository<E, Long>, E> {
         repository.save(entity);
     }
 
-    public E get(final long id) {
-        return repository.findById(id).orElse(null);
+    public E getOrElseThrow(final long id, final String message) {
+        return repository.findById(id).orElseThrow(() -> new RuntimeException(message));
     }
 
     public void delete(final long id) {

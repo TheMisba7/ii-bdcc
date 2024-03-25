@@ -17,6 +17,9 @@
                 <div class="card-body">
                     <div class="p-3">
                         <form th:action="@{/users}" method="post">
+                            <th:block th:if="${user.id != null}">
+                                <input type="number" th:value="${user.id}" name="id" hidden>
+                            </th:block>
                             <div class="mb-2">
                                 <label class="form-label">first name</label>
                                 <input type="text" th:value="${user.firstname != null ? user.firstname: ''}" name="firstname" class="form-control">
@@ -24,7 +27,7 @@
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">last name</label>
-                                <input type="date" name="lastname" th:value="${user.lastname != null ? user.lastname: ''}" class="form-control">
+                                <input type="text" name="lastname" th:value="${user.lastname != null ? user.lastname: ''}" class="form-control">
                                 <span class="text-danger" th:errors="${user.lastname}"></span>
                             </div>
                             <div class="mb-2">
@@ -40,7 +43,7 @@
                             <div sec:authorize="hasRole('ROLE_ADMIN')" class="mb-2">
                                 <label class="d-inline-flex">roles:
                                 <th:block th:each="role: ${roles}">
-                                    <input class="form-check px-2"  type="checkbox" name="roleNames" th:value="${role.name}" th:checked="${T(org.example.springmvcthymeleaf.utils.Utils).hasRole(role.name)}">
+                                    <input class="form-check px-2"  type="checkbox" name="roleNames" th:value="${role.name}" th:checked="${T(org.example.springmvcthymeleaf.utils.Utils).hasRole(role.name, user.roles)}">
                                     <p th:text="${role.name}"></p>
                                 </th:block>
                                 </label>

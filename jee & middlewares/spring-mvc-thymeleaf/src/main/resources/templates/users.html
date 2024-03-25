@@ -28,14 +28,14 @@
                             <a onclick="javascript:return confirm('Etes vous sure?')"
                                href="#"
                                hx-target="#card-body"
-                               th:attr="hx-delete= ${'/users/' + user.id}"
+                               th:attr="hx-delete= ${'/users/' + user.id}, aria-disabled=${currentUser.id == user.id}"
                                class="btn btn-danger">
                                 <i class="bi bi-trash"></i>
                             </a>
                         </td>
                         <td>
                             <a class="btn btn-success"
-                               th:href="@{/editUser(id=${user.id})}">Edit</a>
+                               th:href="@{/users/edit-user(id=${user.id})}">Edit</a>
                         </td>
                     </tr>
                     </thead>

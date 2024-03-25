@@ -46,12 +46,18 @@ public class PatientController {
     }
     @GetMapping(path = "/{id}")
     public Patient get(@PathVariable(name = "id") final long id) {
-        return patientApp.get(id);
+        return patientApp.getOrElseThrow(id, "Could find patient with id:" + id);
     }
 
     @GetMapping("/new")
     public String newPatient(final Model model) {
         model.addAttribute("patient", new Patient());
+        return "create-patient";
+    }
+
+    @GetMapping("/update")
+    public String update(final Model model, @RequestParam("id") long id) {
+        model.addAttribute("patient", patientApp.getOrElseThrow(id, "Could not find patient with id:" + id));
         return "create-patient";
     }
 
