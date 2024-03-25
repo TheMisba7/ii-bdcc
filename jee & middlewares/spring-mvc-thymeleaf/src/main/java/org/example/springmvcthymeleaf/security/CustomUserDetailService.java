@@ -29,10 +29,9 @@ public class CustomUserDetailService implements UserDetailsService {
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         for (UserRole userRole: userDaoByEmail.getRoles()) {
-            authorities.add(new SimpleGrantedAuthority(userRole.getName()));
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + userRole.getName()));
         }
-        org.springframework.security.core.userdetails.User secUser = new org.springframework.security.core.userdetails.User(username, userDaoByEmail.getPassword(), authorities);
 
-        return secUser;
+        return new org.springframework.security.core.userdetails.User(username, userDaoByEmail.getPassword(), authorities);
     }
 }

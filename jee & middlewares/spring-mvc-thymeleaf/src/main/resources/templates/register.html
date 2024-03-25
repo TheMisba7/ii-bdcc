@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
@@ -7,7 +9,7 @@
     <title>New User</title>
 </head>
 <body>
-<div>
+<div layout:fragment="content">
     <div class="row mt-3">
         <div class="col-md-6 offset-3">
             <div class="card">
@@ -17,29 +19,31 @@
                         <form th:action="@{/users}" method="post">
                             <div class="mb-2">
                                 <label class="form-label">first name</label>
-                                <input type="text" name="firstname" class="form-control">
+                                <input type="text" th:value="${user.firstname != null ? user.firstname: ''}" name="firstname" class="form-control">
                                 <span class="text-danger" th:errors="${user.firstname}"></span>
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">last name</label>
-                                <input type="date" name="lastname" class="form-control">
+                                <input type="date" name="lastname" th:value="${user.lastname != null ? user.lastname: ''}" class="form-control">
                                 <span class="text-danger" th:errors="${user.lastname}"></span>
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">email</label>
-                                <input type="text" name="email" class="form-control">
+                                <input type="text" name="email" th:value="${user.email != null ? user.email: ''}" class="form-control">
                                 <span class="text-danger" th:errors="${user.email}"></span>
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">password</label>
-                                <input type="password" name="password" class="form-control">
+                                <input type="password" name="password" th:value="${user.password != null ? user.password: ''}" class="form-control">
                                 <span class="text-danger" th:errors="${user.password}"></span>
                             </div>
-                            <div sec:authorize="hasRole('ADMIN')" class="mb-2">
-                                <label>roles</label>
+                            <div sec:authorize="hasRole('ROLE_ADMIN')" class="mb-2">
+                                <label class="d-inline-flex">roles:
                                 <th:block th:each="role: ${roles}">
-                                    <input type="checkbox" name="roleNames" th:value="${role.name}" >
+                                    <input class="form-check px-2"  type="checkbox" name="roleNames" th:value="${role.name}" th:checked="${T(org.example.springmvcthymeleaf.utils.Utils).hasRole(role.name)}">
+                                    <p th:text="${role.name}"></p>
                                 </th:block>
+                                </label>
                             </div>
                             <button class="btn btn-success">Save</button>
                         </form>

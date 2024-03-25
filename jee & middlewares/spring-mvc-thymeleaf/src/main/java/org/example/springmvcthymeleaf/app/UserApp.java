@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 public class UserApp extends AbstractApp<UserDao, User>{
     private final RoleDao roleDao;
     private final PasswordEncoder passwordEncoder;
+
     protected UserApp(UserDao repository, RoleDao roleDao,
                       PasswordEncoder passwordEncoder) {
         super(repository);
