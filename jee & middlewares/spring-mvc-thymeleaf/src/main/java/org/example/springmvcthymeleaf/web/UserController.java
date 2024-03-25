@@ -55,10 +55,11 @@ public class UserController {
         return "register";
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public String delete(final Model model, @PathVariable("id") long id) {
         userApp.delete(id);
         model.addAttribute("users", userApp.getAll());
-        return "users :: content";
+        model.addAttribute("currentUser", UserApp.getCurrentUser());
+        return "users :: users";
     }
 }
