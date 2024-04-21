@@ -15,8 +15,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.mansar.paymentservice.PaymentType;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -30,6 +30,7 @@ public class Payment {
     private Long id;
     @Column(unique = true)
     private String code;
+    private LocalDate paidAt;
     @CreationTimestamp
     private LocalDateTime createdAt;
     @Enumerated(EnumType.STRING)
@@ -39,4 +40,5 @@ public class Payment {
     @ManyToOne
     private Student student;
     private String receipt;
+    private Double amount;
 }

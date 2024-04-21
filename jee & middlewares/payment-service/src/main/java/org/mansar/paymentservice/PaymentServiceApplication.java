@@ -4,6 +4,7 @@ import org.mansar.paymentservice.dao.PaymentDao;
 import org.mansar.paymentservice.dao.StudentDao;
 import org.mansar.paymentservice.model.Payment;
 import org.mansar.paymentservice.model.PaymentStatus;
+import org.mansar.paymentservice.model.PaymentType;
 import org.mansar.paymentservice.model.Student;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -72,6 +73,7 @@ public class PaymentServiceApplication {
 											.type(paymentTypes[random.nextInt(paymentTypes.length)])
 											.status(paymentStatuses[random.nextInt(paymentStatuses.length)])
 											.student(student)
+											.amount(random.nextDouble(1000, 10000))
 											.build());
 						}
 					});
