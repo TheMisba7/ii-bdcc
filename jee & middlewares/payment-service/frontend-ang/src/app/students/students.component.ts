@@ -28,7 +28,8 @@ export class StudentsComponent implements OnInit{
           this.datasource.sort = this.sort
           this.datasource.paginator = this.paginator
           this.datasource.filterPredicate = function(dataFilter: any, filter: string): boolean {
-            return dataFilter.firstname.includes(filter);
+            return dataFilter.firstname.toLowerCase().includes(filter)
+              || dataFilter.lastname.toLowerCase().includes(filter);
           };
         },
         error: err => {

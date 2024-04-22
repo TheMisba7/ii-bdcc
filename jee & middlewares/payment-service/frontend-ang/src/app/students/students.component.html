@@ -1,9 +1,4 @@
 <div class="container">
-  <div class="example-header">
-    <mat-form-field>
-      <input matInput [(ngModel)]="filterValue" (keyup)="applyFilter()" placeholder="Filter">
-    </mat-form-field>
-  </div>
   <mat-card>
     <mat-card-header>
       <mat-card-title>
@@ -12,6 +7,9 @@
     </mat-card-header>
     <mat-divider></mat-divider>
     <mat-card-content>
+      <mat-form-field>
+        <input matInput [(ngModel)]="filterValue" (keyup)="applyFilter()" placeholder="Filter by firstname & lastname">
+      </mat-form-field>
       <table mat-table [dataSource]="datasource" matSort  class="mat-elevation-z8">
         <ng-container matColumnDef="code">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
