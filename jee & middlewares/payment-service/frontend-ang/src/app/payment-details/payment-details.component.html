@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="overlay" *ngIf="isLoading">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Payment Details
+      </mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <table>
+        <tr>
+          <th>Id</th>
+          <td>{{payment.id}}</td>
+        </tr>
+        <tr>
+          <th>Code</th>
+          <td *ngIf="payment.code; else naDisplay" >{{payment.code}}</td>
+        </tr>
+        <tr>
+          <th>Status</th>
+          <td>
+            <mat-form-field>
+              <mat-select [(value)]="payment.status">
+                @for (status of statusList; track status) {
+                  <mat-option [value]="status" (click)="updateStatus(payment.id, status)">{{status}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <th>Type</th>
+          <td>{{payment.type}}</td>
+        </tr>
+        <tr>
+          <th>Amount(DH)</th>
+          <td>{{payment.amount}}</td>
+        </tr>
+        <tr>
+          <th>Major ID</th>
+          <td>{{payment.student.majorId}}</td>
+        </tr>
+        <tr>
+          <th>Full Name</th>
+          <td>{{payment.student.firstname + ' ' + payment.student.lastname}}</td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td>{{payment.student.email}}</td>
+        </tr>
+        <tr>
+          <th>Paid date</th>
+          <td *ngIf="payment.paidAt; else naDisplay">{{payment.paidAt}}</td>
+          <ng-template #naDisplay><td>N/A</td></ng-template>
+        </tr>
+      </table>
+    </mat-card-content>
+    <mat-card-actions align="end">
+
+    </mat-card-actions>
+  </mat-card>
+
+</div>

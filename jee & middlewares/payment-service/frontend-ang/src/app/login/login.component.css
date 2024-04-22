@@ -1,0 +1,8 @@
+mat-form-field{
+  display: block;
+}
+.form-login{
+  width: 60%;
+  flex: auto;
+  margin: auto;
+}

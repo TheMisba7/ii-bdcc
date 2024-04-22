@@ -6,6 +6,7 @@ import org.mansar.paymentservice.model.PaymentStatus;
 import org.mansar.paymentservice.model.PaymentType;
 import org.mansar.paymentservice.service.PaymentService;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/payments")
+@CrossOrigin("*")
 public class PaymentController {
     private final PaymentService paymentService;
     private final PaymentDao paymentDao;
@@ -74,7 +76,7 @@ public class PaymentController {
 
     @PutMapping("/{paymentId}/status")
     public Payment updateStatus(@PathVariable final long paymentId,
-                                @RequestParam final PaymentStatus status) {
+                                @RequestParam(name = "newStatus") final PaymentStatus status) {
         return paymentService.updateStatus(paymentId, status);
     }
 }
