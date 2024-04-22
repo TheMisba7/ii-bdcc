@@ -22,7 +22,7 @@ import { PaymentsComponent } from './payments/payments.component';
 import {MatCard, MatCardModule} from "@angular/material/card";
 import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 import {MatInput, MatInputModule} from "@angular/material/input";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthGuard} from "./guards/auth.guard";
 import {HttpClientModule} from "@angular/common/http";
 import {MatTableModule} from "@angular/material/table";
@@ -66,7 +66,8 @@ import {MatProgressSpinner, MatProgressSpinnerModule} from "@angular/material/pr
     MatSortModule,
     MatSelectModule,
     MatOptionModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    FormsModule
   ],
   providers: [
     provideAnimationsAsync(),
