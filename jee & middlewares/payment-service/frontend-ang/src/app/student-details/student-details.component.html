@@ -1,0 +1,94 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Student Details
+      </mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <mat-card-subtitle style="margin-top: 10px">
+        <h2>Personal Info</h2>
+      </mat-card-subtitle>
+      <table class="mat-elevation-z8">
+        <tr>
+          <th class="student-td-th student-th">Id</th>
+          <td class="student-td-th">{{studentDashboard.student.id}}</td>
+        </tr>
+        <tr>
+          <th class="student-td-th student-th">Code</th>
+          <td class="student-td-th">{{studentDashboard.student.code}}</td>
+        </tr>
+        <tr>
+          <th class="student-td-th student-th">First Name</th>
+          <td class="student-td-th">{{studentDashboard.student.firstname}}</td>
+        </tr>
+        <tr>
+          <th class="student-td-th student-th">Last Name</th>
+          <td class="student-td-th">{{studentDashboard.student.lastname}}</td>
+        </tr>
+        <tr>
+          <th class="student-td-th student-th">Email</th>
+          <td class="student-td-th">{{studentDashboard.student.email}}</td>
+        </tr>
+        <tr>
+          <th class="student-td-th student-th">Major ID</th>
+          <td class="student-td-th">{{studentDashboard.student.majorId}}</td>
+        </tr>
+      </table>
+    </mat-card-content>
+    <mat-card-content>
+      <mat-card-subtitle style="margin-top: 10px">
+        <h2>Payments</h2>
+      </mat-card-subtitle>
+      <mat-label style="color: forestgreen">
+        Total Payment: {{studentDashboard.totalPayment}}
+      </mat-label>
+      <table mat-table [dataSource]="datasource" #studentPaymentSort matSort  class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="paidAt">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Paid Date </th>
+          <td mat-cell *matCellDef="let element"> {{element.paidAt ? element.paidAt : 'N/A'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+          <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+        </ng-container>
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+          <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+          <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-mini-fab color="primary" style="margin-right: 8px"  aria-label="details" (click)="getPaymentDetails(element.id)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button mat-mini-fab color="primary" aria-label="Delete this payment">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[2, 5, 10]"
+                     showFirstLastButtons
+                     #studentPaymentPaginator="matPaginator"
+                     aria-label="Select page of periodic elements">
+      </mat-paginator>
+    </mat-card-content>
+
+
+  </mat-card>
+
+</div>

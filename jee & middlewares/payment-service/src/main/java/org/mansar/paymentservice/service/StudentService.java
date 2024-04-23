@@ -31,7 +31,9 @@ public class StudentService extends AbstractService<Student, StudentDao> {
     }
 
     public StudentDashboard getStudentDashboard(String code) {
-        List<PaymentThinDTO> paymentThinDTOList = paymentMapper.toThinDTO(paymentDao.findByStudentCode(code));
+        List<PaymentThinDTO> paymentThinDTOList =
+                paymentMapper
+                        .toThinDTO(paymentDao.findByStudentCode(code));
         return new StudentDashboard(
                 studentDao.findByCode(code),
                 paymentThinDTOList,
