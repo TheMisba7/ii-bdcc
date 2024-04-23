@@ -41,4 +41,8 @@ export class StudentDetailsComponent implements OnInit{
   getPaymentDetails(id: number) {
     this.router.navigate(["/admin/payments", id])
   }
+
+  addNewPayment(studentCode: number) {
+    this.router.navigate([`/admin/students/${studentCode}/newPayment`]);
+  }
 }

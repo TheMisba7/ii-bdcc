@@ -65,8 +65,8 @@ public class PaymentController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Payment newPayment(@RequestParam MultipartFile file, LocalDate paidAt,
                               double amount, PaymentType paymentType,
-                              String studentCode) {
-        return paymentService.newPayment(file, amount, studentCode, paidAt, paymentType);
+                              PaymentStatus status, String studentCode) {
+        return paymentService.newPayment(file, amount, studentCode, paidAt, paymentType, status);
     }
 
     @GetMapping(value = "/{paymentId}/receipt", produces = MediaType.APPLICATION_PDF_VALUE)

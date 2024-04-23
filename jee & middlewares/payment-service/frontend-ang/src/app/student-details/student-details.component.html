@@ -44,6 +44,11 @@
       <mat-label style="color: forestgreen">
         Total Payment: {{studentDashboard.totalPayment}}
       </mat-label>
+      <div style="position: relative; float: right; margin-bottom: 10px;">
+        <button mat-fab color="accent" matTooltip="Add new payment" (click)="addNewPayment(studentDashboard.student.code)" >
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </div>
       <table mat-table [dataSource]="datasource" #studentPaymentSort matSort  class="mat-elevation-z8">
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>

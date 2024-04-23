@@ -27,11 +27,12 @@ public class PaymentService extends AbstractService<Payment, PaymentDao> {
 
     public Payment newPayment(MultipartFile file, Double amount,
                               String studentCode, LocalDate paidAt,
-                              PaymentType paymentType) {
+                              PaymentType paymentType, PaymentStatus status) {
         try {
             String filename = storageProvider.save(file.getInputStream());
             return paymentDao.save(
                     Payment.builder()
+                            .status(status)
                             .receipt(filename)
                             .paidAt(paidAt)
                             .amount(amount)

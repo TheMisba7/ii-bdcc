@@ -33,6 +33,8 @@ import {MatOption, MatSelect, MatSelectModule} from "@angular/material/select";
 import {MatOptionModule} from "@angular/material/core";
 import {MatProgressSpinner, MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { StudentDetailsComponent } from './student-details/student-details.component';
+import {MatTooltip, MatTooltipModule} from "@angular/material/tooltip";
+import { AddPaymentComponent } from './add-payment/add-payment.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,8 @@ import { StudentDetailsComponent } from './student-details/student-details.compo
     StudentsComponent,
     PaymentsComponent,
     PaymentDetailsComponent,
-    StudentDetailsComponent
+    StudentDetailsComponent,
+    AddPaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +72,8 @@ import { StudentDetailsComponent } from './student-details/student-details.compo
     MatSelectModule,
     MatOptionModule,
     MatProgressSpinnerModule,
-    FormsModule
+    FormsModule,
+    MatTooltipModule
   ],
   providers: [
     provideAnimationsAsync(),
