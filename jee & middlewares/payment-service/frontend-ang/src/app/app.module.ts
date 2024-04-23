@@ -32,6 +32,7 @@ import { PaymentDetailsComponent } from './payment-details/payment-details.compo
 import {MatOption, MatSelect, MatSelectModule} from "@angular/material/select";
 import {MatOptionModule} from "@angular/material/core";
 import {MatProgressSpinner, MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { StudentDetailsComponent } from './student-details/student-details.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {MatProgressSpinner, MatProgressSpinnerModule} from "@angular/material/pr
     DashboardComponent,
     StudentsComponent,
     PaymentsComponent,
-    PaymentDetailsComponent
+    PaymentDetailsComponent,
+    StudentDetailsComponent
   ],
   imports: [
     BrowserModule,

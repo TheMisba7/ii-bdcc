@@ -3,6 +3,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {HttpClient} from "@angular/common/http";
 import {MatTableDataSource} from "@angular/material/table";
+import {Route, Router} from "@angular/router";
 
 @Component({
   selector: 'app-students',
@@ -13,11 +14,11 @@ export class StudentsComponent implements OnInit{
   public students: any
   public filterValue! :string
   public datasource: any
-  displayedColumns: string[] = ['code', 'firstname', 'lastname', 'email', 'majorId'];
+  displayedColumns: string[] = ['code', 'firstname', 'lastname', 'email', 'majorId','actions'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private https: HttpClient) {
+  constructor(private https: HttpClient, private router :Router) {
   }
   ngOnInit(): void {
     this.https.get("http://localhost:9191/api/students")
@@ -44,4 +45,7 @@ export class StudentsComponent implements OnInit{
     this.datasource.filter = this.filterValue;
   }
 
+  getStudentDashboard(code: string) {
+    this.router.navigate(["/admin/students", code])
+  }
 }

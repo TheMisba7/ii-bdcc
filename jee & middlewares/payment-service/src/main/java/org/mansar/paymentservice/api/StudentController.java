@@ -1,5 +1,6 @@
 package org.mansar.paymentservice.api;
 
+import org.mansar.paymentservice.dto.StudentDashboard;
 import org.mansar.paymentservice.model.Student;
 import org.mansar.paymentservice.service.StudentService;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,5 +34,10 @@ public class StudentController {
     @GetMapping("/{code}")
     public Student getByCode(@PathVariable("code") final String code) {
         return studentService.getByCode(code);
+    }
+
+    @GetMapping("/{code}/dashboard")
+    public StudentDashboard getStudentDashboard(@PathVariable("code") final String code) {
+        return studentService.getStudentDashboard(code);
     }
 }

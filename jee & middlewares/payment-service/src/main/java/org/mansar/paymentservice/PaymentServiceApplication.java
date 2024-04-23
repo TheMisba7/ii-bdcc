@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.UUID;
 
@@ -73,7 +74,7 @@ public class PaymentServiceApplication {
 											.type(paymentTypes[random.nextInt(paymentTypes.length)])
 											.status(paymentStatuses[random.nextInt(paymentStatuses.length)])
 											.student(student)
-											.amount(random.nextDouble(1000, 10000))
+											.amount(Math.round(random.nextDouble(1000, 10000) * 100.0) / 100.0)
 											.build());
 						}
 					});
