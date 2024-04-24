@@ -2,9 +2,11 @@ package org.mansar.paymentservice.service;
 
 import org.mansar.paymentservice.dao.PaymentDao;
 import org.mansar.paymentservice.dao.StudentDao;
+import org.mansar.paymentservice.model.Email;
 import org.mansar.paymentservice.model.Payment;
 import org.mansar.paymentservice.model.PaymentStatus;
 import org.mansar.paymentservice.model.PaymentType;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,11 +20,13 @@ public class PaymentService extends AbstractService<Payment, PaymentDao> {
     private final PaymentDao paymentDao;
     private final StudentDao studentDao;
     private final StorageProvider storageProvider;
-    protected PaymentService(PaymentDao dao, StudentDao studentDao, StorageProvider storageProvider) {
+    private final RabbitTemplate rabbitTemplate;
+    protected PaymentService(PaymentDao dao, StudentDao studentDao, StorageProvider storageProvider, RabbitTemplate rabbitTemplate) {
         super(dao);
         this.paymentDao = dao;
         this.studentDao = studentDao;
         this.storageProvider = storageProvider;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     public Payment newPayment(MultipartFile file, Double amount,
@@ -74,9 +78,17 @@ public class PaymentService extends AbstractService<Payment, PaymentDao> {
 
     public Payment updateStatus(long paymentId, PaymentStatus status) {
         Payment payment = paymentDao.findById(paymentId)
+                .map(p -> {
+                    p.setStatus(status);
+                    return paymentDao.save(p);
+                })
                 .orElseThrow(() -> new RuntimeException("not found"));
 
-        payment.setStatus(status);
-        return paymentDao.save(payment);
+        Email email = new Email();
+        email.setFrom("admin@admin.me");
+        email.setTo(new String[]{"student@student.him"});
+        email.setBody("Your payment status has been changed to " + status);
+        rabbitTemplate.convertAndSend("", "q.email-notification", email);
+        return payment;
     }
 }
