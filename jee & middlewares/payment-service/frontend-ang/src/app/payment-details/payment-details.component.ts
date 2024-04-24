@@ -11,7 +11,7 @@ export class PaymentDetailsComponent implements OnInit{
   public payment :any
   statusList: string[] = ["CREATED", "REJECTED", "VALIDATED"];
   isLoading: boolean = false
-  constructor(private router: ActivatedRoute, private https: HttpClient, private renderer: Renderer2, private elementRef: ElementRef) {
+  constructor(private router: ActivatedRoute, private https: HttpClient) {
   }
     ngOnInit(): void {
         this.router.params.subscribe(params => {
