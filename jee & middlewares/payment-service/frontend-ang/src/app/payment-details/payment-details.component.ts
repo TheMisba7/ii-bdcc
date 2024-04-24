@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, Renderer2} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 
@@ -11,7 +11,7 @@ export class PaymentDetailsComponent implements OnInit{
   public payment :any
   statusList: string[] = ["CREATED", "REJECTED", "VALIDATED"];
   isLoading: boolean = false
-  constructor(private router: ActivatedRoute, private https: HttpClient) {
+  constructor(private router: ActivatedRoute, private https: HttpClient, private renderer: Renderer2, private elementRef: ElementRef) {
   }
     ngOnInit(): void {
         this.router.params.subscribe(params => {
@@ -40,5 +40,14 @@ export class PaymentDetailsComponent implements OnInit{
           this.isLoading = false
         }
       })
+  }
+
+  downloadReceipt(paymentId: any) {
+    this.https.get("http://localhost:9191/api/payments/" + paymentId + "/receipt", { responseType: 'blob' })
+      .subscribe(blob => {
+        const fileURL = URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      },
+        error => {console.error(error)});
   }
 }

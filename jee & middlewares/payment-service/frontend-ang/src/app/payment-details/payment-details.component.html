@@ -58,6 +58,9 @@
           <ng-template #naDisplay><td>N/A</td></ng-template>
         </tr>
       </table>
+      <div style="flex: auto; margin-top: 10px;">
+        <button mat-flat-button color="primary" *ngIf="payment.receipt" (click)="downloadReceipt(payment.id)">Download Receipt</button>
+      </div>
     </mat-card-content>
     <mat-card-actions align="end">
 
