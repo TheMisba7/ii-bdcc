@@ -1,0 +1,53 @@
+<div class="container">
+  <mat-card class="form-login" [formGroup]="formLogin">
+    <mat-card-header>
+      <mat-card-title>
+        Add New Payment
+      </mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content style="margin-top: 10px">
+      <mat-form-field appearance="outline">
+        <mat-label>Paid Date</mat-label>
+        <input matInput formControlName="paidDate" type="date">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" min="1" formControlName="amount">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>
+          Payment Type
+        </mat-label>
+        <mat-select formControlName="paymentType">
+          @for (type of typeList; track type) {
+            <mat-option [value]="type">{{type}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>
+          Status
+        </mat-label>
+        <mat-select formControlName="status">
+          @for (status of statusList; track status) {
+            <mat-option [value]="status">{{status}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-label>
+        Receipt:
+      </mat-label>
+      <input #receipt type="file" required formControlName="receipt"/>
+
+
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button (click)="addNewPayment(receipt.files)" mat-raised-button color="primary">
+        add
+      </button>
+
+    </mat-card-actions>
+  </mat-card>
+
+</div>
