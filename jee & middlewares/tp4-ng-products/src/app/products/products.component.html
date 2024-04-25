@@ -1,0 +1,36 @@
+<div class="p-3">
+  <div class="card">
+    <div class="card-header">
+      New Product
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Checked</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let product of products">
+          <td>{{product.id}}</td>
+          <td>{{product.name}}</td>
+          <td>{{product.price}}</td>
+          <td>
+            <button class="btn btn-outline-success" (click)="checkProduct(product)" >
+              <i [className]="product.checked? 'bi bi-check': 'bi bi-circle'"></i>
+
+            </button>
+          </td>
+        </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+</div>
