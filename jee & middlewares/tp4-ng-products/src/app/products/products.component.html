@@ -4,6 +4,15 @@
       Products
     </div>
     <div class="card-body">
+      <div>
+        <input type="text" [(ngModel)]="keyword" class="">
+        <button (click)="search()" class="btn btn-outline-success ms-2">
+          search
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
       <table class="table">
         <thead>
         <tr>

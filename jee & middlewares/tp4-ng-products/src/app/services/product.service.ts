@@ -15,15 +15,19 @@ export class ProductService {
   }
 
   public toggleCheck(product :Product) :Observable<Product> {
-    return this.https.patch<Product>("http://localhost:1111/products/" + product.id,
+    return this.https.patch<Product>(`http://localhost:1111/products/${product.id}`,
       {checked: !product.checked})
   }
 
   public delete(productId :number) :Observable<any> {
-    return this.https.delete("http://localhost:1111/products/" + productId)
+    return this.https.delete(`http://localhost:1111/products/${productId}`)
   }
 
   public save(product :Product) :Observable<Product> {
     return this.https.post<Product>("http://localhost:1111/products/", product)
+  }
+
+  public search(keyword :string) :Observable<Array<Product>> {
+    return this.https.get<Array<Product>>(`http://localhost:1111/products?name_like=${keyword}`)
   }
 }

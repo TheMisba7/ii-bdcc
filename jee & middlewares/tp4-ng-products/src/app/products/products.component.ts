@@ -9,6 +9,7 @@ import {Product} from "../model/product.model";
 })
 export class ProductsComponent implements OnInit{
   public products! : Array<Product>
+  public keyword :string = ""
   constructor(private productService :ProductService) {}
   ngOnInit(): void {
     this.productService.getProducts()
@@ -41,4 +42,13 @@ export class ProductsComponent implements OnInit{
       })
   }
 
+  search() {
+    this.productService.search(this.keyword)
+      .subscribe({
+        next: products => {
+          this.products = products
+        },
+        error: err => {console.error(err)}
+      })
+  }
 }
