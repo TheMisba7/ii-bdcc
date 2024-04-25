@@ -1,0 +1,64 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "computer",
+      "price": 1717,
+      "checked": true
+    },
+    {
+      "id": 3,
+      "name": "Xiaomi Redmi",
+      "price": 2500,
+      "checked": true
+    },
+    {
+      "id": 4,
+      "name": "computer",
+      "price": 1717,
+      "checked": true
+    },
+    {
+      "id": 5,
+      "name": "Xiaomi Redmi",
+      "price": 2500,
+      "checked": false
+    },
+    {
+      "id": 6,
+      "name": "computer",
+      "price": 1717,
+      "checked": false
+    },
+    {
+      "id": 7,
+      "name": "Xiaomi Redmi",
+      "price": 2500,
+      "checked": false
+    },
+    {
+      "id": 8,
+      "name": "computer",
+      "price": 1717,
+      "checked": false
+    },
+    {
+      "id": 9,
+      "name": "Xiaomi Redmi",
+      "price": 2500,
+      "checked": false
+    },
+    {
+      "id": 10,
+      "name": "computer",
+      "price": 1717,
+      "checked": false
+    },
+    {
+      "id": "e45b",
+      "name": "smart 122",
+      "price": 2322,
+      "checked": true
+    }
+  ]
+}

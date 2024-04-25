@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {ProductService} from "../services/product.service";
+import {Product} from "../model/product.model";
 
 @Component({
   selector: 'app-products',
@@ -6,20 +8,37 @@ import {Component, OnInit} from '@angular/core';
   styleUrl: './products.component.css'
 })
 export class ProductsComponent implements OnInit{
-  public products! : Array<any>
+  public products! : Array<Product>
+  constructor(private productService :ProductService) {}
   ngOnInit(): void {
-    this.products = new Array(10)
-      for (let i = 0; i < 10; i++) {
-        this.products[i] = {
-          id: i + 1,
-          name: "product-" + i,
-          price: (i+1) * 20.5,
-          checked: false
-        }
+    this.productService.getProducts()
+      .subscribe({
+        next: data => {this.products = data}
+      })
     }
+
+  toggleCheck(product: Product) {
+    this.productService.toggleCheck(product)
+      .subscribe({
+        next: updatedProduct => {
+          product.checked = !product.checked
+        },
+        error: err => {
+          console.log(err)
+        }
+      })
   }
 
-  checkProduct(product: any) {
-    product.checked = !product.checked
+  delete(product: Product) {
+    this.productService.delete(product.id)
+      .subscribe({
+        next: res => {
+          this.products = this.products.filter(p => p.id != product.id)
+        },
+        error: err => {
+          console.log(err)
+        }
+      })
   }
+
 }
