@@ -1,6 +1,7 @@
 package org.mansar.paymentservice.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.mansar.paymentservice.config.ConfigProperties;
 import org.mansar.paymentservice.model.Email;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ public class RabbitMQConsumer {
         this.notificationService = notificationService;
     }
 
-    @RabbitListener(queues = {"q.email-notification"})
+    @RabbitListener(queues = {"${rabbitmq.queue.email.name}"})
     public void onPaymentStatusChange(Email email) {
         notificationService.send(email);
     }

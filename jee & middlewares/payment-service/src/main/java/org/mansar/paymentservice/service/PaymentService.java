@@ -1,5 +1,6 @@
 package org.mansar.paymentservice.service;
 
+import org.mansar.paymentservice.config.ConfigProperties;
 import org.mansar.paymentservice.dao.PaymentDao;
 import org.mansar.paymentservice.dao.StudentDao;
 import org.mansar.paymentservice.model.Email;
@@ -21,12 +22,14 @@ public class PaymentService extends AbstractService<Payment, PaymentDao> {
     private final StudentDao studentDao;
     private final StorageProvider storageProvider;
     private final RabbitTemplate rabbitTemplate;
-    protected PaymentService(PaymentDao dao, StudentDao studentDao, StorageProvider storageProvider, RabbitTemplate rabbitTemplate) {
+    private final ConfigProperties configProperties;
+    protected PaymentService(PaymentDao dao, StudentDao studentDao, StorageProvider storageProvider, RabbitTemplate rabbitTemplate, ConfigProperties configProperties) {
         super(dao);
         this.paymentDao = dao;
         this.studentDao = studentDao;
         this.storageProvider = storageProvider;
         this.rabbitTemplate = rabbitTemplate;
+        this.configProperties = configProperties;
     }
 
     public Payment newPayment(MultipartFile file, Double amount,
@@ -88,7 +91,10 @@ public class PaymentService extends AbstractService<Payment, PaymentDao> {
         email.setFrom("admin@admin.me");
         email.setTo(new String[]{"student@student.him"});
         email.setBody("Your payment status has been changed to " + status);
-        rabbitTemplate.convertAndSend("", "q.email-notification", email);
+        rabbitTemplate
+                .convertAndSend(configProperties.getEmailExchangeName(),
+                        configProperties.getEmailBindingName(),
+                        email);
         return payment;
     }
 }
