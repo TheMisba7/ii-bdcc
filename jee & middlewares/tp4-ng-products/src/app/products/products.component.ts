@@ -7,17 +7,35 @@ import {Product} from "../model/product.model";
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
-export class ProductsComponent implements OnInit{
-  public products! : Array<Product>
-  public keyword :string = ""
-  constructor(private productService :ProductService) {}
-  ngOnInit(): void {
-    this.productService.getProducts()
-      .subscribe({
-        next: data => {this.products = data}
-      })
-    }
+export class ProductsComponent implements OnInit {
+  public products!: Array<Product>
+  public keyword: string = ""
+  public limit: number = 2
+  public currentPage: number = 1
+  public totalPages!: number
 
+  constructor(private productService: ProductService) {
+  }
+
+  ngOnInit(): void {
+    this.getProducts()
+  }
+
+  getProducts() {
+    this.productService.getProducts(this.keyword, this.currentPage, this.limit)
+      .subscribe({
+        next: response => {
+          this.products = response.body as Product[]
+          let totalProducts: number = parseInt(response.headers.get("X-Total-Count")!)
+          this.totalPages = Math.floor(totalProducts / this.limit)
+          if (totalProducts % this.limit != 0) {
+            this.totalPages++;
+          }
+          console.log(totalProducts)
+          console.log(this.totalPages)
+        }
+      })
+  }
   toggleCheck(product: Product) {
     this.productService.toggleCheck(product)
       .subscribe({
@@ -43,12 +61,11 @@ export class ProductsComponent implements OnInit{
   }
 
   search() {
-    this.productService.search(this.keyword)
-      .subscribe({
-        next: products => {
-          this.products = products
-        },
-        error: err => {console.error(err)}
-      })
+    this.getProducts()
+  }
+
+  getNextPage(number: number) {
+    this.currentPage = number
+    this.getProducts()
   }
 }

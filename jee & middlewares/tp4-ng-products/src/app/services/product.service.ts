@@ -10,8 +10,8 @@ export class ProductService {
 
   constructor(private https: HttpClient) { }
 
-  public getProducts() :Observable<Array<Product>> {
-    return this.https.get<Array<Product>>("http://localhost:1111/products")
+  public getProducts(keyword :string="", page: number = 1, limit :number = 2) {
+    return this.https.get(`http://localhost:1111/products?name_like=${keyword}&_page=${page}&_limit=${limit}`, {observe: 'response'})
   }
 
   public toggleCheck(product :Product) :Observable<Product> {
@@ -25,9 +25,5 @@ export class ProductService {
 
   public save(product :Product) :Observable<Product> {
     return this.https.post<Product>("http://localhost:1111/products/", product)
-  }
-
-  public search(keyword :string) :Observable<Array<Product>> {
-    return this.https.get<Array<Product>>(`http://localhost:1111/products?name_like=${keyword}`)
   }
 }
