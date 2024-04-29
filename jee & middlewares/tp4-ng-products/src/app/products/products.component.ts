@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductService} from "../services/product.service";
 import {Product} from "../model/product.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-products',
@@ -14,7 +15,7 @@ export class ProductsComponent implements OnInit {
   public currentPage: number = 1
   public totalPages!: number
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService, private router :Router) {
   }
 
   ngOnInit(): void {
@@ -67,5 +68,9 @@ export class ProductsComponent implements OnInit {
   getNextPage(number: number) {
     this.currentPage = number
     this.getProducts()
+  }
+
+  modify(product: Product) {
+    this.router.navigateByUrl(`/editProduct/${product.id}`)
   }
 }

@@ -2,7 +2,7 @@
   "products": [
     {
       "id": 1,
-      "name": "computer",
+      "name": "computer HP",
       "price": 1717,
       "checked": true
     },
@@ -52,7 +52,7 @@
       "id": 10,
       "name": "computer",
       "price": 1717,
-      "checked": false
+      "checked": true
     },
     {
       "id": "e45b",

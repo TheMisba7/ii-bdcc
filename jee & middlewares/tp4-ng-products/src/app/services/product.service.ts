@@ -26,4 +26,12 @@ export class ProductService {
   public save(product :Product) :Observable<Product> {
     return this.https.post<Product>("http://localhost:1111/products/", product)
   }
+
+  public getProductById(productId :number) {
+    return this.https.get<Product>(`http://localhost:1111/products/${productId}`)
+  }
+
+  update(product: Product) {
+    return this.https.put<Product>(`http://localhost:1111/products/${product.id}`, product)
+  }
 }
