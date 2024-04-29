@@ -5,7 +5,7 @@
     </div>
     <div class="card-body">
       <div>
-        <input type="text" [(ngModel)]="keyword" class="">
+        <input type="text" [(ngModel)]="appState.productState.keyword" class="">
         <button (click)="search()" class="btn btn-outline-success ms-2">
           search
           <i class="bi bi-search"></i>
@@ -23,7 +23,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let product of products">
+        <tr *ngFor="let product of appState.productState.products">
           <td>{{product.id}}</td>
           <td>{{product.name}}</td>
           <td>{{product.price}}</td>
@@ -46,8 +46,8 @@
       </table>
       <nav>
         <ul class="pagination">
-          <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" (click)="getNextPage(i+1)">
-            <button class="page-link" [ngClass]="currentPage == i+1 ? 'page-link active' : 'page-link'">{{i+1}}</button>
+          <li class="page-item" *ngFor="let page of [].constructor(appState.productState.totalPages); let i = index" (click)="getNextPage(i+1)">
+            <button class="page-link" [ngClass]="appState.productState.currentPage == i+1 ? 'page-link active' : 'page-link'">{{i+1}}</button>
           </li>
         </ul>
       </nav>

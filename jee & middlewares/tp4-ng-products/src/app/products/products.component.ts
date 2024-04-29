@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProductService} from "../services/product.service";
 import {Product} from "../model/product.model";
 import {Router} from "@angular/router";
+import {AppStateService} from "../services/app-state.service";
 
 @Component({
   selector: 'app-products',
@@ -9,13 +10,10 @@ import {Router} from "@angular/router";
   styleUrl: './products.component.css'
 })
 export class ProductsComponent implements OnInit {
-  public products!: Array<Product>
-  public keyword: string = ""
-  public limit: number = 2
-  public currentPage: number = 1
-  public totalPages!: number
 
-  constructor(private productService: ProductService, private router :Router) {
+
+  constructor(private productService: ProductService,
+              private router :Router, public appState : AppStateService) {
   }
 
   ngOnInit(): void {
@@ -23,17 +21,16 @@ export class ProductsComponent implements OnInit {
   }
 
   getProducts() {
-    this.productService.getProducts(this.keyword, this.currentPage, this.limit)
+    this.productService.getProducts(this.appState.productState.keyword, this.appState.productState.currentPage, this.appState.productState.limit)
       .subscribe({
         next: response => {
-          this.products = response.body as Product[]
+          // @ts-ignore
+          this.appState.productState.products = response.body as Product[]
           let totalProducts: number = parseInt(response.headers.get("X-Total-Count")!)
-          this.totalPages = Math.floor(totalProducts / this.limit)
-          if (totalProducts % this.limit != 0) {
-            this.totalPages++;
+          this.appState.productState.totalPages = Math.floor(totalProducts / this.appState.productState.limit)
+          if (totalProducts % this.appState.productState.limit != 0) {
+            this.appState.productState.totalPages++;
           }
-          console.log(totalProducts)
-          console.log(this.totalPages)
         }
       })
   }
@@ -53,7 +50,8 @@ export class ProductsComponent implements OnInit {
     this.productService.delete(product.id)
       .subscribe({
         next: res => {
-          this.products = this.products.filter(p => p.id != product.id)
+          this.appState.productState.products = this.appState.productState.products
+            .filter((p :any)  => p.id != product.id)
         },
         error: err => {
           console.log(err)
@@ -66,7 +64,7 @@ export class ProductsComponent implements OnInit {
   }
 
   getNextPage(number: number) {
-    this.currentPage = number
+    this.appState.productState.currentPage = number
     this.getProducts()
   }
 
