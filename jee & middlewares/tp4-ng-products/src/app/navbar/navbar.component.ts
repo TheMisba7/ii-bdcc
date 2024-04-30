@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {AppStateService} from "../services/app-state.service";
+import {SpinnerService} from "../services/spinner.service";
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +15,7 @@ export class NavbarComponent {
   ]
   currentAction: any
 
-  constructor(public appState: AppStateService) {
+  constructor(public appState: AppStateService, public spinner: SpinnerService) {
   }
   updateAction(action: any) {
     this.currentAction = action

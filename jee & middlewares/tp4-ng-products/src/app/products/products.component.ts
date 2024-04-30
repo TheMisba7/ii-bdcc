@@ -22,7 +22,6 @@ export class ProductsComponent implements OnInit {
   }
 
   getProducts() {
-    this.appState.productState.status = "LOADING"
     this.productService.getProducts(this.appState.productState.keyword, this.appState.productState.currentPage, this.appState.productState.limit)
       .subscribe({
         next: response => {
@@ -37,7 +36,6 @@ export class ProductsComponent implements OnInit {
             products: products,
             totalProducts: totalProducts,
             totalPages: totalPages,
-            status: "LOADED"
           })
         },
         error: err => {
@@ -49,15 +47,11 @@ export class ProductsComponent implements OnInit {
       })
   }
   toggleCheck(product: Product) {
-    this.appState.setProductState({
-      status: "LOADING"
-    })
     this.productService.toggleCheck(product)
       .subscribe({
         next: updatedProduct => {
           product.checked = !product.checked
           this.appState.setProductState({
-            status: "LOADED"
           })
         },
         error: err => {
@@ -71,19 +65,16 @@ export class ProductsComponent implements OnInit {
 
   delete(product: Product) {
     this.appState.setProductState({
-      status: "LOADING"
     })
     this.productService.delete(product.id)
       .subscribe({
         next: res => {
           this.appState.setProductState({
             products: this.appState.productState.products.filter((p :any)  => p.id != product.id),
-            status: "LOADED"
           })
         },
         error: err => {
           this.appState.setProductState({
-            status: "ERROR",
             errorMessage: err.message
           })
         }
