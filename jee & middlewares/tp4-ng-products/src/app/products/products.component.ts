@@ -3,6 +3,7 @@ import {ProductService} from "../services/product.service";
 import {Product} from "../model/product.model";
 import {Router} from "@angular/router";
 import {AppStateService} from "../services/app-state.service";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-products',
@@ -21,40 +22,70 @@ export class ProductsComponent implements OnInit {
   }
 
   getProducts() {
+    this.appState.productState.status = "LOADING"
     this.productService.getProducts(this.appState.productState.keyword, this.appState.productState.currentPage, this.appState.productState.limit)
       .subscribe({
         next: response => {
           // @ts-ignore
-          this.appState.productState.products = response.body as Product[]
+          let products = response.body as Product[]
           let totalProducts: number = parseInt(response.headers.get("X-Total-Count")!)
-          this.appState.productState.totalPages = Math.floor(totalProducts / this.appState.productState.limit)
+          let totalPages = Math.floor(totalProducts / this.appState.productState.limit)
           if (totalProducts % this.appState.productState.limit != 0) {
-            this.appState.productState.totalPages++;
+            totalPages++;
           }
+          this.appState.setProductState({
+            products: products,
+            totalProducts: totalProducts,
+            totalPages: totalPages,
+            status: "LOADED"
+          })
+        },
+        error: err => {
+          this.appState.setProductState({
+            status: "ERROR",
+            errorMessage: err.message
+          })
         }
       })
   }
   toggleCheck(product: Product) {
+    this.appState.setProductState({
+      status: "LOADING"
+    })
     this.productService.toggleCheck(product)
       .subscribe({
         next: updatedProduct => {
           product.checked = !product.checked
+          this.appState.setProductState({
+            status: "LOADED"
+          })
         },
         error: err => {
-          console.log(err)
+          this.appState.setProductState({
+            status: "ERROR",
+            errorMessage: err.message
+          })
         }
       })
   }
 
   delete(product: Product) {
+    this.appState.setProductState({
+      status: "LOADING"
+    })
     this.productService.delete(product.id)
       .subscribe({
         next: res => {
-          this.appState.productState.products = this.appState.productState.products
-            .filter((p :any)  => p.id != product.id)
+          this.appState.setProductState({
+            products: this.appState.productState.products.filter((p :any)  => p.id != product.id),
+            status: "LOADED"
+          })
         },
         error: err => {
-          console.log(err)
+          this.appState.setProductState({
+            status: "ERROR",
+            errorMessage: err.message
+          })
         }
       })
   }

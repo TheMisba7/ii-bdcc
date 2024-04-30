@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {AppStateService} from "./services/app-state.service";
 
 @Component({
   selector: 'app-root',
@@ -6,14 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  actions :Array<any> = [
-    {"title": "Home", "icon": "house-door-fill", "route": "/home"},
-    {"title": "Products", "icon": "home", "route": "/products"},
-    {"title": "New Product", "icon": "plus-circle-fill", "route": "/new-product"}
-  ]
-  currentAction: any
 
-  updateAction(action: any) {
-    this.currentAction = action
-  }
 }
