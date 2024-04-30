@@ -11,8 +11,6 @@ import {error} from "@angular/compiler-cli/src/transformers/util";
   styleUrl: './products.component.css'
 })
 export class ProductsComponent implements OnInit {
-
-
   constructor(private productService: ProductService,
               private router :Router, public appState : AppStateService) {
   }
@@ -25,7 +23,6 @@ export class ProductsComponent implements OnInit {
     this.productService.getProducts(this.appState.productState.keyword, this.appState.productState.currentPage, this.appState.productState.limit)
       .subscribe({
         next: response => {
-          // @ts-ignore
           let products = response.body as Product[]
           let totalProducts: number = parseInt(response.headers.get("X-Total-Count")!)
           let totalPages = Math.floor(totalProducts / this.appState.productState.limit)
@@ -64,8 +61,6 @@ export class ProductsComponent implements OnInit {
   }
 
   delete(product: Product) {
-    this.appState.setProductState({
-    })
     this.productService.delete(product.id)
       .subscribe({
         next: res => {

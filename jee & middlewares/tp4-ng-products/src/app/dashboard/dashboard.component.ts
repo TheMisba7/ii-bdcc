@@ -7,7 +7,6 @@ import {AppStateService} from "../services/app-state.service";
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-
   constructor(public appState :AppStateService) {
   }
 
