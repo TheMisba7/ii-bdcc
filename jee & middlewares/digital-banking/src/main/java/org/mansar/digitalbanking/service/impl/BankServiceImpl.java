@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.mansar.digitalbanking.dao.BankAccountDao;
 import org.mansar.digitalbanking.dao.CustomerDao;
 import org.mansar.digitalbanking.dao.OperationDao;
+import org.mansar.digitalbanking.dto.BankAccountDTO;
+import org.mansar.digitalbanking.dto.mapper.BankAccountMapper;
 import org.mansar.digitalbanking.exception.BalanceNotSufficientException;
 import org.mansar.digitalbanking.exception.BankAccountNotFoundException;
 import org.mansar.digitalbanking.exception.CustomerNotFoundException;
@@ -28,9 +30,10 @@ public class BankServiceImpl implements IBankService {
     private final BankAccountDao bankAccountDao;
     private final CustomerDao customerDao;
     private final OperationDao operationDao;
+    private final BankAccountMapper bankAccountMapper;
 
     @Override
-    public CurrentAccount saveCurrentAccount(double initAmount, double overDraft, Long customerId) {
+    public BankAccountDTO saveCurrentAccount(double initAmount, double overDraft, Long customerId) {
         Customer customer = customerDao.findById(customerId).orElseThrow(() -> new CustomerNotFoundException(customerId));
         BankAccount bankAccount = CurrentAccount.builder()
                 .id(UUID.randomUUID().toString())
@@ -39,11 +42,11 @@ public class BankServiceImpl implements IBankService {
                 .overDraft(overDraft)
                 .build();
 
-        return (CurrentAccount) bankAccountDao.save(bankAccount);
+        return bankAccountMapper.toDTO(bankAccountDao.save(bankAccount));
     }
 
     @Override
-    public SavingAccount saveSavingAccount(double initAmount, double interestRate, Long customerId) {
+    public BankAccountDTO saveSavingAccount(double initAmount, double interestRate, Long customerId) {
         Customer customer = customerDao.findById(customerId).orElseThrow(() -> new CustomerNotFoundException(customerId));
         BankAccount bankAccount = SavingAccount.builder()
                 .id(UUID.randomUUID().toString())
@@ -51,14 +54,14 @@ public class BankServiceImpl implements IBankService {
                 .customer(customer)
                 .interestRate(interestRate)
                 .build();
-        return (SavingAccount) bankAccountDao.save(bankAccount);
+        return bankAccountMapper.toDTO(bankAccountDao.save(bankAccount));
     }
 
 
     @Override
     @Transactional
     public void debit(String accountId, double amount, String description) {
-        BankAccount bankAccount = getAccount(accountId);
+        BankAccount bankAccount = getAccountById(accountId);
         if (bankAccount.getBalance() < amount)
             throw new BalanceNotSufficientException(accountId, amount);
         Operation operation = new Operation(amount, OperationType.DEBIT, bankAccount, description);
@@ -70,7 +73,7 @@ public class BankServiceImpl implements IBankService {
     @Override
     @Transactional
     public void credit(String accountId, double amount, String description) {
-        BankAccount bankAccount = getAccount(accountId);
+        BankAccount bankAccount = getAccountById(accountId);
         Operation operation = new Operation(amount, OperationType.CREDIT, bankAccount, description);
         bankAccount.setBalance(bankAccount.getBalance() + amount);
         operationDao.save(operation);
@@ -87,10 +90,15 @@ public class BankServiceImpl implements IBankService {
 
     @Override
     public List<BankAccount> getAccounts() {
-        return null;
+        return bankAccountDao.findAll();
     }
 
-    private BankAccount getAccount(String id) throws BankAccountNotFoundException {
+    private BankAccount getAccountById(String id) throws BankAccountNotFoundException {
         return this.bankAccountDao.findById(id).orElseThrow(() -> new BankAccountNotFoundException(id));
+    }
+
+    @Override
+    public BankAccountDTO getAccount(String id) {
+        return bankAccountMapper.toDTO(getAccountById(id));
     }
 }
