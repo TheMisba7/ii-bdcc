@@ -1,1 +1,32 @@
-<p>add-customer works!</p>
+<div class="container">
+  <mat-card class="form-login" [formGroup]="customerForm">
+    <mat-card-header>
+      <mat-card-title>
+        Add New Customer
+      </mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content style="margin-top: 10px">
+      <c-row>
+        <mat-form-field appearance="outline">
+          <mat-label>Firstname</mat-label>
+          <input matInput formControlName="firstname" type="text">
+        </mat-form-field>
+      </c-row>
+      <c-row>
+        <mat-form-field appearance="outline">
+          <mat-label>Lastname</mat-label>
+          <input matInput formControlName="lastname" type="text">
+        </mat-form-field>
+      </c-row>
+      <c-row>
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" type="text">
+        </mat-form-field>
+      </c-row>
+    </mat-card-content>
+    <button mat-stroked-button color="accent" (click)="handleNewCustomer()">Submit</button>
+  </mat-card>
+
+</div>

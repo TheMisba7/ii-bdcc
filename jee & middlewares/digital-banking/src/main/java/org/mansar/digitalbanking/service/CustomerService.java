@@ -17,8 +17,9 @@ public class CustomerService extends AbstractService<CustomerDTO, Customer, Cust
         super(customerDao, customerMapper);
     }
 
-    public Customer newCustomer(CustomerDTO customerDTO) {
-        return dao.save(mapper.fromDTO(customerDTO));
+    public CustomerDTO newCustomer(CustomerDTO customerDTO) {
+        Customer customer = dao.save(mapper.fromDTO(customerDTO));
+        return mapper.toDTO(customer);
     }
 
     public CustomerDTO getCustomerById(Long id) {

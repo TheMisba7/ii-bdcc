@@ -28,10 +28,10 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'add-customers',
+        path: 'add-customer',
         loadComponent: () => import('./views/add-customer/add-customer.component').then(m => m.AddCustomerComponent),
         data: {
-          title: 'Customers'
+          title: 'Add Customer'
         }
       },
       {

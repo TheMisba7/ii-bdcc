@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Page} from "../../model/model";
+import {Customer, Page} from "../../model/model";
 
 @Injectable({
   providedIn: 'root'
@@ -12,5 +12,9 @@ export class CustomerServiceService {
 
   public getCustomers(page: number, size: number, keyword: string) {
     return this.https.get<Page>(this.host + "?page=" + page + "&size=" + size + "&keyword=" + keyword)
+  }
+
+  public createCustomer(customer: Customer) {
+    return this.https.post(this.host, customer);
   }
 }

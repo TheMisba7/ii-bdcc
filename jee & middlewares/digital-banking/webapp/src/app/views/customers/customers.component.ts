@@ -11,7 +11,7 @@ import {IconDirective} from "@coreui/icons-angular";
 import {Customer, Page} from "../../../model/model";
 import {CustomerServiceService} from "../../services/customer-service.service";
 import {NgForOf} from "@angular/common";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort, MatSortModule} from "@angular/material/sort";
 import {
@@ -84,8 +84,8 @@ export class CustomersComponent implements OnInit{
   }
 
   public search() {
-    console.log(this.keyword)
-
+    this.page = 0
+    this.getCustomers()
   }
 
 }
