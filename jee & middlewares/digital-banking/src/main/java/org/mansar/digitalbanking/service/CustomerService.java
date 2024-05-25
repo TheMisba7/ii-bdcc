@@ -28,7 +28,7 @@ public class CustomerService extends AbstractService<CustomerDTO, Customer, Cust
 
     public PageContainer<CustomerDTO> getCustomers(String keyword, int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        Page<Customer> customers = dao.findByFirstnameContainsOrLastnameContains(keyword, pageRequest);
+        Page<Customer> customers = dao.findByFirstnameContainsOrLastnameContains(keyword, keyword, pageRequest);
         return super.map(customers);
     }
 }

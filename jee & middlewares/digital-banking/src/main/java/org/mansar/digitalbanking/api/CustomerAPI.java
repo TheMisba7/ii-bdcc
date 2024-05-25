@@ -1,0 +1,27 @@
+package org.mansar.digitalbanking.api;
+
+import lombok.RequiredArgsConstructor;
+import org.mansar.digitalbanking.dto.CustomerDTO;
+import org.mansar.digitalbanking.dto.PageContainer;
+import org.mansar.digitalbanking.service.CustomerService;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/customers")
+@RequiredArgsConstructor
+@CrossOrigin("*")
+public class CustomerAPI {
+    private final CustomerService customerService;
+
+    @GetMapping
+    public PageContainer<CustomerDTO> getCustomerPage(@RequestParam(defaultValue = "1") int page,
+                                                      @RequestParam(defaultValue = "100") int size,
+                                                      @RequestParam(required = false , defaultValue = "") String keyword) {
+        return customerService.getCustomers(keyword, page, size);
+
+    }
+}
