@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerDao extends JpaRepository<Customer, Long> {
-    Page<Customer> findByFirstnameContainsOrLastnameContains(String keyword, PageRequest pageRequest);
+    Page<Customer> findByFirstnameContainsOrLastnameContains(String firstname, String lastname, PageRequest pageRequest);
 }

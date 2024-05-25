@@ -1,0 +1,65 @@
+<c-container>
+  <c-row>
+    <c-col md>
+      <c-input-group class="flex-nowrap">
+        <svg cIcon height="18" class="cil-search" name="cilSearch"></svg>
+        <input aria-describedby="addon-wrapping" (keyup)="search()"
+               #searchInput
+               aria-label="Search"
+               [(ngModel)]="this.keyword"
+               cFormControl
+               placeholder="Tap to search..."
+        />
+      </c-input-group>
+    </c-col>
+    <c-col></c-col>
+    <c-col xs [lg]="2">
+      <button
+        style="float: right; margin-bottom: 10px"
+        color="primary"
+        cButton
+      >
+        Add
+        <svg cIcon height="18" name="cilUserFollow"></svg>
+      </button>
+    </c-col>
+
+  </c-row>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Customers
+      </mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <table mat-table [dataSource]="datasource" matSort  class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="firstname">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Firstname </th>
+          <td mat-cell *matCellDef="let element"> {{element.firstname}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="lastname">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Lastname </th>
+          <td mat-cell *matCellDef="let element"> {{element.lastname}} </td>
+        </ng-container>
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                     showFirstLastButtons
+                     aria-label="Select page of periodic elements">
+      </mat-paginator>
+
+    </mat-card-content>
+  </mat-card>
+</c-container>
