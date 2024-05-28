@@ -35,6 +35,20 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'accounts',
+        loadComponent: () => import('./views/accounts/accounts.component').then(m => m.AccountsComponent),
+        data: {
+          title: 'Accounts'
+        }
+      },
+      {
+        path: 'accounts/:accountId',
+        loadComponent: () => import('./views/account-details/account-details.component').then(m => m.AccountDetailsComponent),
+        data: {
+          title: 'Accounts'
+        }
+      },
+      {
         path: 'theme',
         loadChildren: () => import('./views/theme/routes').then((m) => m.routes)
       },

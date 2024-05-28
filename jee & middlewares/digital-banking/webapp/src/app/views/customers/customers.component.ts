@@ -27,11 +27,13 @@ import {MatDivider} from "@angular/material/divider";
 import {FormsModule} from "@angular/forms";
 import {debounceTime, distinctUntilChanged, fromEvent} from "rxjs";
 import {map} from "rxjs/operators";
+import {MatIcon} from "@angular/material/icon";
+import {MatMiniFabButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-customers',
   standalone: true,
-  imports: [ContainerComponent, RowComponent, ColComponent, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective, TableDirective, ProgressComponent, TemplateIdDirective, WidgetStatCComponent, NgForOf, PaginationComponent, PageItemDirective, RouterLink, PageLinkDirective, MatCardModule, MatCardHeader, MatDivider, MatCardContent, MatTable, MatColumnDef, MatHeaderCell, MatCell, MatPaginator, MatSortModule, MatHeaderCellDef, MatCellDef, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef, FormsModule],
+  imports: [ContainerComponent, RowComponent, ColComponent, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective, TableDirective, ProgressComponent, TemplateIdDirective, WidgetStatCComponent, NgForOf, PaginationComponent, PageItemDirective, RouterLink, PageLinkDirective, MatCardModule, MatCardHeader, MatDivider, MatCardContent, MatTable, MatColumnDef, MatHeaderCell, MatCell, MatPaginator, MatSortModule, MatHeaderCellDef, MatCellDef, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef, FormsModule, MatIcon, MatMiniFabButton],
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss'
 })
@@ -44,7 +46,7 @@ export class CustomersComponent implements OnInit{
   public keyword :string = ""
   public pageContainer!: Page;
   public datasource: any
-  displayedColumns: string[] = ['id', 'firstname', 'lastname', 'email'];
+  displayedColumns: string[] = ['id', 'firstname', 'lastname', 'email', 'actions'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('searchInput', { static: true }) searchInput!: ElementRef;
@@ -88,4 +90,7 @@ export class CustomersComponent implements OnInit{
     this.getCustomers()
   }
 
+  getCustomer(id: number) {
+
+  }
 }

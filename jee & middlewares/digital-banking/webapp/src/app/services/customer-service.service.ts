@@ -6,7 +6,7 @@ import {Customer, Page} from "../../model/model";
   providedIn: 'root'
 })
 export class CustomerServiceService {
-  public host : string = "http://localhost:9999/api/customers"
+  public host : string = "http://localhost:9991/api/customers"
 
   constructor(private https: HttpClient) {}
 

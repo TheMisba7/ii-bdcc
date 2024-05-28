@@ -25,9 +25,10 @@ public class BankAccountDTO {
     private AccountStatus status;
     @NotNull(message = "customer id is required")
     private Long customerId;
-    private List<Operation> operations;
+    private List<OperationDTO> operations;
     @NotNull(message = "Account types is required")
     private AccountType type;
     private double interestRate;
     private double overDraft;
+    private CustomerDTO customer;
 }
