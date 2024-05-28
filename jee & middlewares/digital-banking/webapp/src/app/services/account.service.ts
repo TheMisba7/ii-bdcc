@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {BankAccount, Operation} from "../../model/model";
+import {BankAccount, Operation, PostAccountRQ} from "../../model/model";
 @Injectable({
   providedIn: 'root'
 })
@@ -21,6 +21,10 @@ export class AccountService {
   }
 
   public postOperation(operation: Operation) {
-    return this.https.post(this.host + "/operation", operation)
+    return this.https.post(this.host + "/operations", operation)
+  }
+
+  public createAccount(account: PostAccountRQ) {
+    return this.https.post<BankAccount>(this.host, account)
   }
 }

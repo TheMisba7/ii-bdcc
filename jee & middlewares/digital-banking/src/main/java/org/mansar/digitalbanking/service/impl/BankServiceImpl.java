@@ -7,6 +7,7 @@ import org.mansar.digitalbanking.dao.BankAccountDao;
 import org.mansar.digitalbanking.dao.CustomerDao;
 import org.mansar.digitalbanking.dao.OperationDao;
 import org.mansar.digitalbanking.dto.BankAccountDTO;
+import org.mansar.digitalbanking.dto.OperationDTO;
 import org.mansar.digitalbanking.dto.PageContainer;
 import org.mansar.digitalbanking.dto.mapper.BankAccountMapper;
 import org.mansar.digitalbanking.dto.mapper.OperationMapper;
@@ -25,6 +26,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,6 +47,7 @@ public class BankServiceImpl implements IBankService {
                 .id(UUID.randomUUID().toString())
                 .balance(initAmount)
                 .customer(customer)
+                .status(AccountStatus.CREATED)
                 .overDraft(overDraft)
                 .build();
 
@@ -58,6 +61,7 @@ public class BankServiceImpl implements IBankService {
                 .id(UUID.randomUUID().toString())
                 .balance(initAmount)
                 .customer(customer)
+                .status(AccountStatus.CREATED)
                 .interestRate(interestRate)
                 .build();
         return bankAccountMapper.toDTO(bankAccountDao.save(bankAccount));
@@ -109,7 +113,8 @@ public class BankServiceImpl implements IBankService {
 
     @Override
     public BankAccountDTO getAccount(String id) {
-        BankAccountDTO dto = bankAccountMapper.toDTO(getAccountById(id));
+        BankAccount accountById = getAccountById(id);
+        BankAccountDTO dto = bankAccountMapper.toDTO(accountById);
         List<Operation> operations = operationDao.findByAccountId(id);
         dto.setOperations(operationMapper.toDTO(operations));
         return dto;

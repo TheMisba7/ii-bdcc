@@ -1,8 +1,11 @@
 package org.mansar.digitalbanking.api;
 
 import jakarta.validation.Valid;
+import org.mansar.digitalbanking.app.AccountDetailsApp;
 import org.mansar.digitalbanking.dto.BankAccountDTO;
+import org.mansar.digitalbanking.dto.OperationDTO;
 import org.mansar.digitalbanking.dto.PageContainer;
+import org.mansar.digitalbanking.dto.PostAccountDTO;
 import org.mansar.digitalbanking.model.AccountStatus;
 import org.mansar.digitalbanking.service.IBankService;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,14 +23,16 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("*")
 public class BankAccountAPI {
     private final IBankService bankService;
+    private final AccountDetailsApp accountDetailsApp;
 
-    public BankAccountAPI(IBankService bankService) {
+    public BankAccountAPI(IBankService bankService, AccountDetailsApp accountDetailsApp) {
         this.bankService = bankService;
+        this.accountDetailsApp = accountDetailsApp;
     }
 
     @PostMapping("")
-    public BankAccountDTO postAccount(@Valid @RequestBody BankAccountDTO bankAccountDTO) {
-        return bankService.create(bankAccountDTO);
+    public BankAccountDTO postAccount(@Valid @RequestBody PostAccountDTO postAccountDTO) {
+        return bankService.create(postAccountDTO);
     }
 
     @GetMapping
@@ -47,5 +52,10 @@ public class BankAccountAPI {
                              @RequestParam(name = "newStatus") AccountStatus status) {
         bankService.updateStatus(accountId, status);
     }
+    @PostMapping("/operations")
+    public void newOperation(@RequestBody OperationDTO operationDTO) {
+         accountDetailsApp.createOperation(operationDTO);
+    }
+
 
 }

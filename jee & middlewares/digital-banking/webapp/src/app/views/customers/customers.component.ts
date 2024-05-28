@@ -52,7 +52,7 @@ export class CustomersComponent implements OnInit{
   @ViewChild('searchInput', { static: true }) searchInput!: ElementRef;
 
 
-  constructor(private customerService: CustomerServiceService) {
+  constructor(private customerService: CustomerServiceService, private route: Router) {
   }
     ngOnInit(): void {
         this.getCustomers()
@@ -91,6 +91,6 @@ export class CustomersComponent implements OnInit{
   }
 
   getCustomer(id: number) {
-
+    this.route.navigateByUrl("/customers/" + id)
   }
 }

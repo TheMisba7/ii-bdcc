@@ -7,6 +7,9 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
@@ -18,4 +21,6 @@ public class Customer {
     private String firstname;
     private String lastname;
     private String email;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 }

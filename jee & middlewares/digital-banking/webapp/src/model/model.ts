@@ -3,6 +3,12 @@ export interface Customer {
   firstname: string,
   lastname: string,
   email: string
+  createdAt?: string
+}
+
+export interface CustomerDetails {
+  customer: Customer,
+  accounts: BankAccount[]
 }
 
 export interface Page {
@@ -14,12 +20,13 @@ export interface Page {
 }
 
 export interface Operation {
-  id: number,
+  id?: number,
   amount: number,
   type: string
   description: string
   createdAt: string
   target: string
+  accountId: string
 }
 
 export interface BankAccount {
@@ -30,6 +37,15 @@ export interface BankAccount {
   createdAt: string
   customer: Customer
   operations: Operation[]
+  interestRate: number, // for saving account
+  overDraft: number // for current account
+}
+
+export interface PostAccountRQ {
+  type: string,
+  balance: number,
+  createdAt: string
+  customerId: number
   interestRate: number, // for saving account
   overDraft: number // for current account
 }

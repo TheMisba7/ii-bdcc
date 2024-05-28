@@ -28,6 +28,13 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'customers/:customerId',
+        loadComponent: () => import('./views/customer-details/customer-details.component').then(m => m.CustomerDetailsComponent),
+        data: {
+          title: 'Accounts'
+        }
+      },
+      {
         path: 'add-customer',
         loadComponent: () => import('./views/add-customer/add-customer.component').then(m => m.AddCustomerComponent),
         data: {

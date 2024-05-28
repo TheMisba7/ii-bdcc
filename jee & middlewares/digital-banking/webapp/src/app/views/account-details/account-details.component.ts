@@ -1,14 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {BankAccount} from "../../../model/model";
+import {BankAccount, Operation} from "../../../model/model";
 import {AccountService} from "../../services/account.service";
 import {ActivatedRoute} from "@angular/router";
 import {
   ButtonCloseDirective,
-  ButtonDirective,
+  ButtonDirective, ColComponent,
   ContainerComponent, FormControlDirective, FormDirective, FormLabelDirective, FormSelectDirective,
   ModalBodyComponent,
   ModalComponent, ModalFooterComponent,
-  ModalHeaderComponent, ModalTitleDirective,
+  ModalHeaderComponent, ModalTitleDirective, RowComponent,
   TableDirective
 } from "@coreui/angular";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
@@ -86,7 +86,9 @@ import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
     FormLabelDirective,
     FormControlDirective,
     FormSelectDirective,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RowComponent,
+    ColComponent
   ],
   templateUrl: './account-details.component.html',
   styleUrl: './account-details.component.scss'
@@ -96,7 +98,7 @@ export class AccountDetailsComponent implements OnInit{
   isLoading: boolean = false;
   statusList: string [] = ["CREATED", "ACTIVATED", "SUSPENDED"];
   @ViewChild('operationPaginator', {static: true}) operationPaginator!: MatPaginator;
-  @ViewChild('operationSortSort', {read: MatSort, static: true}) operationSortSort!: MatSort;
+  @ViewChild('operationSort', {read: MatSort, static: true}) operationSort!: MatSort;
   datasource: any;
   displayedColumns: string [] = ["id", "createdAt", "amount", "type", "description"];
   visible: boolean = false
@@ -104,7 +106,11 @@ export class AccountDetailsComponent implements OnInit{
 
   constructor(private accountService: AccountService, private activeRoute: ActivatedRoute, private fb: FormBuilder) {}
     ngOnInit(): void {
-      this.getAccount()
+      this.activeRoute.params.subscribe({
+        next: params => {
+          let accountId = params["accountId"]
+          this.getAccount(accountId)
+        }})
       this.operationForm = this.fb.group({
         operationType: this.fb.control(null),
         amount: this.fb.control(0),
@@ -112,24 +118,19 @@ export class AccountDetailsComponent implements OnInit{
       })
     }
 
-  private getAccount() {
-    this.activeRoute.params.subscribe({
-      next: params => {
-        let accountId = params["accountId"]
-        this.accountService.getAccount(accountId)
-          .subscribe({
-            next: res => {
-              this.account = res
-              this.datasource = new MatTableDataSource(this.account.operations)
-              this.datasource.paginator = this.operationPaginator
-              this.datasource.sort = this.operationSortSort
-            },
-            error: err => {
-              console.log(err)
-            }
-          })
-      }
-    })
+  private getAccount(accountId: string) {
+    this.accountService.getAccount(accountId)
+      .subscribe({
+        next: res => {
+          this.account = res
+          this.datasource = new MatTableDataSource(this.account.operations)
+          this.datasource.paginator = this.operationPaginator
+          this.datasource.sort = this.operationSort
+        },
+        error: err => {
+          console.log(err)
+        }
+      })
   }
 
   public updateStatus(accountId: string, status: string) {
@@ -158,9 +159,25 @@ export class AccountDetailsComponent implements OnInit{
   }
 
   submitOperation() {
-    console.log(this.account.id)
-    console.log(this.operationForm.value.operationType)
-    console.log(this.operationForm.value.amount)
-    console.log(this.operationForm.value.description)
+    this.isLoading = true
+    // @ts-ignore
+    const operation: Operation = {
+      accountId: this.account.id,
+      type: this.operationForm.value.operationType,
+      amount: this.operationForm.value.amount,
+      description: this.operationForm.value.description
+    }
+    this.operationForm.reset()
+    this.accountService.postOperation(operation)
+      .subscribe({
+        next: res => {
+          this.getAccount(this.account.id)
+          this.isLoading = false
+          this.toggleLiveDemo()
+        },
+        error: err => {
+          console.log(err)
+        }
+      })
   }
 }

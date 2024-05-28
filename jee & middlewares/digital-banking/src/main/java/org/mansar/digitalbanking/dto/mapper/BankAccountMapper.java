@@ -14,8 +14,14 @@ public interface BankAccountMapper extends IMapper<BankAccount, BankAccountDTO> 
     @AfterMapping
     default void afterMapping(BankAccount bankAccount, @MappingTarget BankAccountDTO dto) {
         switch (bankAccount) {
-            case CurrentAccount currentAccount -> dto.setOverDraft(currentAccount.getOverDraft());
-            case SavingAccount savingAccount -> dto.setInterestRate(savingAccount.getInterestRate());
+            case CurrentAccount currentAccount -> {
+                dto.setOverDraft(currentAccount.getOverDraft());
+                dto.setType(currentAccount.getType());
+            }
+            case SavingAccount savingAccount -> {
+                dto.setInterestRate(savingAccount.getInterestRate());
+                dto.setType(savingAccount.getType());
+            }
             default -> {}
         }
     }
