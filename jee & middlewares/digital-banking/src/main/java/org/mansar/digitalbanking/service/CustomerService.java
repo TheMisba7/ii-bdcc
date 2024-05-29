@@ -1,10 +1,12 @@
 package org.mansar.digitalbanking.service;
 
+import org.mansar.digitalbanking.dao.AgentRoleDao;
 import org.mansar.digitalbanking.dao.BankAccountDao;
 import org.mansar.digitalbanking.dao.CustomerDao;
 import org.mansar.digitalbanking.dto.BankAccountDTO;
 import org.mansar.digitalbanking.dto.CustomerDTO;
 import org.mansar.digitalbanking.dto.CustomerDetailsDTO;
+import org.mansar.digitalbanking.dto.NewCustomerDTO;
 import org.mansar.digitalbanking.dto.PageContainer;
 import org.mansar.digitalbanking.dto.mapper.BankAccountMapper;
 import org.mansar.digitalbanking.dto.mapper.CustomerMapper;
@@ -27,22 +29,28 @@ public class CustomerService extends AbstractService<CustomerDTO, Customer, Cust
     private final BankAccountMapper bankAccountMapper;
     private final PasswordEncoder passwordEncoder;
     private final INotification notification;
+    private final CustomerMapper customerMapper;
+    private final AgentRoleDao agentRoleDao;
     public CustomerService(CustomerDao customerDao, CustomerMapper customerMapper,
                            BankAccountDao bankAccountDao, BankAccountMapper bankAccountMapper,
-                           PasswordEncoder passwordEncoder, INotification notification) {
+                           PasswordEncoder passwordEncoder, INotification notification,
+                           AgentRoleDao agentRoleDao) {
         super(customerDao, customerMapper);
         this.bankAccountDao = bankAccountDao;
         this.bankAccountMapper = bankAccountMapper;
         this.passwordEncoder = passwordEncoder;
         this.notification = notification;
+        this.customerMapper = customerMapper;
+        this.agentRoleDao = agentRoleDao;
     }
 
 
     @Secured("ROLE_ADMIN")
-    public CustomerDTO newCustomer(CustomerDTO customerDTO) {
-        Customer customer = mapper.fromDTO(customerDTO);
+    public CustomerDTO newCustomer(NewCustomerDTO customerDTO) {
+        Customer customer = customerMapper.fromDTO(customerDTO);
         String generatedPassword = Utils.generateRandomPassword(10);
         customer.setPassword(passwordEncoder.encode(generatedPassword));
+        customer.setRoles(agentRoleDao.findAllById(customerDTO.getRoleIds()));
         customer = dao.save(customer);
         Email email = Utils.welcomeEmail(customerDTO, generatedPassword);
         notification.send(email);

@@ -3,6 +3,7 @@ package org.mansar.digitalbanking.api;
 import lombok.RequiredArgsConstructor;
 import org.mansar.digitalbanking.dto.CustomerDTO;
 import org.mansar.digitalbanking.dto.CustomerDetailsDTO;
+import org.mansar.digitalbanking.dto.NewCustomerDTO;
 import org.mansar.digitalbanking.dto.PageContainer;
 import org.mansar.digitalbanking.service.CustomerService;
 import org.springframework.security.access.annotation.Secured;
@@ -32,7 +33,7 @@ public class CustomerAPI {
 
     @PostMapping
     @Secured("ROLE_ADMIN")
-    public CustomerDTO createCustomer(@RequestBody CustomerDTO customerDTO) {
+    public CustomerDTO createCustomer(@RequestBody NewCustomerDTO customerDTO) {
         return customerService.newCustomer(customerDTO);
     }
 

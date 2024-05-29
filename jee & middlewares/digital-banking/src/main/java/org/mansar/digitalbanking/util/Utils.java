@@ -1,6 +1,7 @@
 package org.mansar.digitalbanking.util;
 
 import org.mansar.digitalbanking.dto.CustomerDTO;
+import org.mansar.digitalbanking.dto.NewCustomerDTO;
 import org.mansar.digitalbanking.model.Email;
 
 import java.security.SecureRandom;
@@ -35,7 +36,7 @@ public final class Utils {
         return password.toString();
     }
 
-    public static Email welcomeEmail(CustomerDTO customer, String password) {
+    public static Email welcomeEmail(NewCustomerDTO customer, String password) {
         Email email = new Email();
         email.setTo(customer.getEmail());
         email.setSubject("Welcome to E-Bank");
