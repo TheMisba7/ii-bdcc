@@ -5,6 +5,7 @@ import org.mansar.digitalbanking.dto.CustomerDTO;
 import org.mansar.digitalbanking.dto.CustomerDetailsDTO;
 import org.mansar.digitalbanking.dto.PageContainer;
 import org.mansar.digitalbanking.service.CustomerService;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,7 @@ public class CustomerAPI {
     }
 
     @PostMapping
+    @Secured("ROLE_ADMIN")
     public CustomerDTO createCustomer(@RequestBody CustomerDTO customerDTO) {
         return customerService.newCustomer(customerDTO);
     }

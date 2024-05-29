@@ -11,8 +11,12 @@ import org.mansar.digitalbanking.dto.mapper.CustomerMapper;
 import org.mansar.digitalbanking.exception.CustomerNotFoundException;
 import org.mansar.digitalbanking.model.BankAccount;
 import org.mansar.digitalbanking.model.Customer;
+import org.mansar.digitalbanking.model.Email;
+import org.mansar.digitalbanking.util.Utils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,17 +25,27 @@ import java.util.List;
 public class CustomerService extends AbstractService<CustomerDTO, Customer, CustomerDao> {
     private final BankAccountDao bankAccountDao;
     private final BankAccountMapper bankAccountMapper;
-    public CustomerService(CustomerDao customerDao,
-                           CustomerMapper customerMapper,
-                           BankAccountDao bankAccountDao,
-                           BankAccountMapper bankAccountMapper) {
+    private final PasswordEncoder passwordEncoder;
+    private final INotification notification;
+    public CustomerService(CustomerDao customerDao, CustomerMapper customerMapper,
+                           BankAccountDao bankAccountDao, BankAccountMapper bankAccountMapper,
+                           PasswordEncoder passwordEncoder, INotification notification) {
         super(customerDao, customerMapper);
         this.bankAccountDao = bankAccountDao;
         this.bankAccountMapper = bankAccountMapper;
+        this.passwordEncoder = passwordEncoder;
+        this.notification = notification;
     }
 
+
+    @Secured("ROLE_ADMIN")
     public CustomerDTO newCustomer(CustomerDTO customerDTO) {
-        Customer customer = dao.save(mapper.fromDTO(customerDTO));
+        Customer customer = mapper.fromDTO(customerDTO);
+        String generatedPassword = Utils.generateRandomPassword(10);
+        customer.setPassword(passwordEncoder.encode(generatedPassword));
+        customer = dao.save(customer);
+        Email email = Utils.welcomeEmail(customerDTO, generatedPassword);
+        notification.send(email);
         return mapper.toDTO(customer);
     }
 

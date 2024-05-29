@@ -7,7 +7,6 @@ import org.mansar.digitalbanking.dao.BankAccountDao;
 import org.mansar.digitalbanking.dao.CustomerDao;
 import org.mansar.digitalbanking.dao.OperationDao;
 import org.mansar.digitalbanking.dto.BankAccountDTO;
-import org.mansar.digitalbanking.dto.OperationDTO;
 import org.mansar.digitalbanking.dto.PageContainer;
 import org.mansar.digitalbanking.dto.mapper.BankAccountMapper;
 import org.mansar.digitalbanking.dto.mapper.OperationMapper;
@@ -19,14 +18,13 @@ import org.mansar.digitalbanking.model.BankAccount;
 import org.mansar.digitalbanking.model.CurrentAccount;
 import org.mansar.digitalbanking.model.Customer;
 import org.mansar.digitalbanking.model.Operation;
-import org.mansar.digitalbanking.model.OperationType;
+import org.mansar.digitalbanking.model.enums.OperationType;
 import org.mansar.digitalbanking.model.SavingAccount;
 import org.mansar.digitalbanking.service.IBankService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
