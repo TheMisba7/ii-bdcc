@@ -31,25 +31,4 @@ public class DigitalBankingApplication {
         SpringApplication.run(DigitalBankingApplication.class, args);
     }
 
-    @Bean
-    CommandLineRunner commandLineRunner(CustomerDao customerDao,
-                                        PasswordEncoder passwordEncoder,
-                                        AgentRoleDao agentRoleDao) {
-       return args -> {
-           agentRoleDao.deleteAll();
-           AgentRole admin = new AgentRole();
-           admin.setName("ADMIN");
-           AgentRole customerRole = new AgentRole();
-           customerRole.setName("CUSTOMER");
-
-           agentRoleDao.saveAll(List.of(admin, customerRole));
-           Customer customer = new Customer();
-           customer.setLastname("Mansar");
-           customer.setFirstname("Abdeddaim");
-           customer.setEmail("a.mansar@nuitee.com");
-           customer.setRoles(List.of(agentRoleDao.findByName("ADMIN")));
-           customer.setPassword(passwordEncoder.encode("whynot"));
-           customerDao.save(customer);
-       };
-    }
 }

@@ -25,6 +25,15 @@
           <input matInput formControlName="email" type="text">
         </mat-form-field>
       </c-row>
+      <c-row>
+        <mat-form-field>
+          <mat-select formControlName="role">
+            <mat-option *ngFor="let role of roles" [value]="role.id">
+              {{ role.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </c-row>
     </mat-card-content>
     <button mat-stroked-button color="accent" (click)="handleNewCustomer()">Submit</button>
   </mat-card>

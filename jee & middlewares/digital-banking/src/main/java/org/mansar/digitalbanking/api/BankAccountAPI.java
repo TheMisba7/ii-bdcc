@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/accounts")
-@CrossOrigin("*")
 public class BankAccountAPI {
     private final IBankService bankService;
     private final AccountDetailsApp accountDetailsApp;

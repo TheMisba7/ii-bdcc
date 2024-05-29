@@ -1,8 +1,17 @@
 import { Routes } from '@angular/router';
 import { DefaultLayoutComponent } from './layout';
 import {CustomersComponent} from "./views/customers/customers.component";
+import {AuthGuard} from "./guards/auth-guard.guard";
+import {LoginComponent} from "./views/login/login.component";
 
 export const routes: Routes = [
+  {
+    path: "login",
+    component: LoginComponent,
+    data: {
+      title: "Login"
+    }
+  },
   {
     path: '',
     redirectTo: 'dashboard',
@@ -11,7 +20,7 @@ export const routes: Routes = [
 
   {
     path: '',
-    component: DefaultLayoutComponent,
+    component: DefaultLayoutComponent, canActivate: [AuthGuard],
     data: {
       title: 'Home'
     },

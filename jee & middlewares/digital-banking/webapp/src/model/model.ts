@@ -4,6 +4,7 @@ export interface Customer {
   lastname: string,
   email: string
   createdAt?: string
+  roleIds: number []
 }
 
 export interface CustomerDetails {
@@ -48,4 +49,10 @@ export interface PostAccountRQ {
   customerId: number
   interestRate: number, // for saving account
   overDraft: number // for current account
+}
+
+export interface AgentRole {
+  id: number,
+  name: string,
+  description: string
 }

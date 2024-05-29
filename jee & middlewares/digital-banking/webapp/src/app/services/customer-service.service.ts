@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Customer, CustomerDetails, Page} from "../../model/model";
+import {AgentRole, Customer, CustomerDetails, Page} from "../../model/model";
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +20,9 @@ export class CustomerServiceService {
 
   getCustomerDetails(customerId: number) {
     return this.https.get<CustomerDetails>(this.host + "/" + customerId + "/details")
+  }
+
+  getRoles() {
+    return this.https.get<AgentRole[]>("http://localhost:9991/api/roles")
   }
 }

@@ -43,7 +43,7 @@ public final class Utils {
         email.setBody(
                 "Hello " + customer.getFirstname()
                         + "\nYour account has been created successfully. Here is your generated "
-                        + password+". Please log in change your password"
+                        + password + ". Please log in change your password"
                         +"\n\nBest Regards,"
         );
         email.setFrom("a.mansar@nuitee.com");

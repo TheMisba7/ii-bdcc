@@ -12,10 +12,14 @@ import {
 import { DropdownModule, SidebarModule } from '@coreui/angular';
 import { IconSetService } from '@coreui/icons-angular';
 import { routes } from './app.routes';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {AuthGuard} from "./guards/auth-guard.guard";
+import {AppHttpInterceptor} from "./services/app-http-interceptor.interceptor";
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true},
+    AuthGuard,
     provideRouter(routes,
       withRouterConfig({
         onSameUrlNavigation: 'reload'
