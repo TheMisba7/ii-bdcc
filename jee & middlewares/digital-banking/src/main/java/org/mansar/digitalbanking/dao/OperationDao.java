@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface OperationDao extends JpaRepository<Operation, Long> {
     List<Operation> findByAccountId(String accountId);
+    List<Operation> findAllByAccountIdIn(List<String> ids);
 }

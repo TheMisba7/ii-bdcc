@@ -37,6 +37,13 @@ public class Customer implements UserDetails {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    public boolean isAdmin() {
+        for (AgentRole role: roles) {
+            if ("ADMIN".equals(role.getName()))
+                return true;
+        }
+        return false;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();

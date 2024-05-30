@@ -5,6 +5,8 @@ export interface Customer {
   email: string
   createdAt?: string
   roleIds: number []
+  roles: AgentRole[]
+  status: string
 }
 
 export interface CustomerDetails {
@@ -55,4 +57,19 @@ export interface AgentRole {
   id: number,
   name: string,
   description: string
+}
+
+export interface Dashboard {
+  //for admin only
+  customers: Customer[],
+  bankAccounts: BankAccount[],
+  totalAccounts: number
+  totalCustomers: number,
+
+  // common
+  operations: Operation[],
+  totalOperations: number,
+
+  //customer
+  account: BankAccount
 }

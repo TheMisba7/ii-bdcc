@@ -41,6 +41,11 @@ public class CustomerAPI {
         return customerService.getCustomerDetails(customerId);
     }
 
+    @GetMapping("/current")
+    public CustomerDTO getCurrent() {
+        return customerService.getCurrentCustomerDTO();
+    }
+
     @DeleteMapping("/{customerId}")
     public void delete(@PathVariable long customerId) {
         customerService.deleteCustomer(customerId);

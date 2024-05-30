@@ -18,6 +18,7 @@ import org.mansar.digitalbanking.util.Utils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,13 @@ public class CustomerService extends AbstractService<CustomerDTO, Customer, Cust
     }
 
 
+    public static Customer getCurrentCustomer() {
+        return (Customer) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+    }
+    public CustomerDTO getCurrentCustomerDTO() {
+        return mapper.toDTO(getCurrentCustomer());
+    }
     @Secured("ROLE_ADMIN")
     public CustomerDTO newCustomer(NewCustomerDTO customerDTO) {
         Customer customer = customerMapper.fromDTO(customerDTO);

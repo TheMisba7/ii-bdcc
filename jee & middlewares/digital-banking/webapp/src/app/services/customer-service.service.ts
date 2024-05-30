@@ -25,4 +25,8 @@ export class CustomerServiceService {
   getRoles() {
     return this.https.get<AgentRole[]>("http://localhost:9991/api/roles")
   }
+
+  getConnectedCustomer() {
+    return this.https.get<Customer>(this.host + "/current")
+  }
 }

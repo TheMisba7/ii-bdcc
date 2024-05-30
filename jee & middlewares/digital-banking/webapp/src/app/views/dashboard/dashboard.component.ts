@@ -1,4 +1,4 @@
-import { DOCUMENT, NgStyle } from '@angular/common';
+import {DOCUMENT, NgIf, NgStyle} from '@angular/common';
 import { Component, DestroyRef, effect, inject, OnInit, Renderer2, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ChartOptions } from 'chart.js';
@@ -8,16 +8,16 @@ import {
   ButtonGroupComponent,
   CardBodyComponent,
   CardComponent,
-  CardFooterComponent,
+  CardFooterComponent, CardHeaderActionsComponent,
   CardHeaderComponent,
-  ColComponent,
+  ColComponent, ContainerComponent,
   FormCheckLabelDirective,
   GutterDirective,
   ProgressBarDirective,
   ProgressComponent,
   RowComponent,
-  TableDirective,
-  TextColorDirective
+  TableDirective, TemplateIdDirective,
+  TextColorDirective, WidgetStatFComponent
 } from '@coreui/angular';
 import { ChartjsComponent } from '@coreui/angular-chartjs';
 import { IconDirective } from '@coreui/icons-angular';
@@ -25,6 +25,12 @@ import { IconDirective } from '@coreui/icons-angular';
 import { WidgetsBrandComponent } from '../widgets/widgets-brand/widgets-brand.component';
 import { WidgetsDropdownComponent } from '../widgets/widgets-dropdown/widgets-dropdown.component';
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
+import {DashboardService} from "../../services/dashboard.service";
+import {AgentRole, Dashboard} from "../../../model/model";
+import {AuthService} from "../../services/auth.service";
+import {cilChartPie, cilList, cilMoney, cilPeople, cilTransfer} from "@coreui/icons";
+import {MatLabel} from "@angular/material/form-field";
+import {RouterLink} from "@angular/router";
 
 interface IUser {
   name: string;
@@ -44,7 +50,7 @@ interface IUser {
   templateUrl: 'dashboard.component.html',
   styleUrls: ['dashboard.component.scss'],
   standalone: true,
-  imports: [WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent]
+  imports: [WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent, NgIf, WidgetStatFComponent, TemplateIdDirective, ContainerComponent, MatLabel, CardHeaderActionsComponent, RouterLink]
 })
 export class DashboardComponent implements OnInit {
 
@@ -52,6 +58,7 @@ export class DashboardComponent implements OnInit {
   readonly #document: Document = inject(DOCUMENT);
   readonly #renderer: Renderer2 = inject(Renderer2);
   readonly #chartsData: DashboardChartsData = inject(DashboardChartsData);
+  public dashboard!: Dashboard;
 
   public users: IUser[] = [
     {
@@ -146,9 +153,11 @@ export class DashboardComponent implements OnInit {
     trafficRadio: new FormControl('Month')
   });
 
+  constructor(private dashboardService: DashboardService, public authService: AuthService) {}
   ngOnInit(): void {
     this.initCharts();
     this.updateChartOnColorModeChange();
+    this.getDashboard()
   }
 
   initCharts(): void {
@@ -187,4 +196,34 @@ export class DashboardComponent implements OnInit {
       });
     }
   }
+
+  private getDashboard() {
+    this.dashboardService.getDashboard()
+      .subscribe({
+        next: res => {
+          this.dashboard = res
+        },
+        error: err => {
+          console.log(err)
+        }
+      })
+  }
+
+  getRoles(roles: AgentRole[]) {
+    let stringRoles: String = "";
+    for (let role of roles) {
+      if (stringRoles === "") {
+        stringRoles = role.name
+      } else {
+        stringRoles = stringRoles.concat(" | " + role.name)
+      }
+    }
+    return stringRoles;
+  }
+
+  protected readonly cilChartPie = cilChartPie;
+  protected readonly cilPeople = cilPeople;
+  protected readonly cilTransfer = cilTransfer;
+  protected readonly cilList = cilList;
+  protected readonly cilMoney = cilMoney;
 }
