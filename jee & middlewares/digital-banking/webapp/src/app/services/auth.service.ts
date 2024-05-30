@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {result} from "lodash-es";
 import {tap} from "rxjs/operators";
 import {CustomerServiceService} from "./customer-service.service";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class AuthService implements OnInit{
   private _expiresIn!: number
   private _isAuthenticated: boolean = false
   private authTokenKey = "auth-token";
-  constructor(private https: HttpClient, private customerService: CustomerServiceService) {
+  constructor(private https: HttpClient, private customerService: CustomerServiceService, private route: Router) {
     // @ts-ignore
     this._token = localStorage.getItem(this.authTokenKey)
     this._isAuthenticated = this._token != undefined
@@ -59,6 +60,9 @@ export class AuthService implements OnInit{
     return this._token;
   }
   public get customer(): Customer {
+    if (this._isAuthenticated && this._customer == undefined) {
+      this.getConnectedUser()
+    }
     return this._customer;
   }
 
@@ -74,7 +78,6 @@ export class AuthService implements OnInit{
     if (this.isAuthenticated && this._customer == null) {
       this.getConnectedUser()
     }
-    console.log(this._customer)
     if (this._isAuthenticated && this._customer != null) {
       for (let role of this._customer.roles) {
         if (roleName === role.name)
@@ -85,5 +88,11 @@ export class AuthService implements OnInit{
   }
   isCustomer() {
    return this.isRolePresent("CUSTOMER")
+  }
+
+  logout() {
+    localStorage.clear()
+    this._isAuthenticated = false
+    this.route.navigateByUrl("/login")
   }
 }

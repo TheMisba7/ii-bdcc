@@ -4,6 +4,7 @@ import org.mansar.digitalbanking.dao.AgentRoleDao;
 import org.mansar.digitalbanking.dao.BankAccountDao;
 import org.mansar.digitalbanking.dao.CustomerDao;
 import org.mansar.digitalbanking.dto.BankAccountDTO;
+import org.mansar.digitalbanking.dto.ChangePasswordDTO;
 import org.mansar.digitalbanking.dto.CustomerDTO;
 import org.mansar.digitalbanking.dto.CustomerDetailsDTO;
 import org.mansar.digitalbanking.dto.NewCustomerDTO;
@@ -91,5 +92,14 @@ public class CustomerService extends AbstractService<CustomerDTO, Customer, Cust
 
     public void deleteCustomer(long customerId) {
 
+    }
+
+    public void changePassword(ChangePasswordDTO changePasswordDTO) {
+        Customer currentCustomer = getCurrentCustomer();
+        if (!passwordEncoder.matches(changePasswordDTO.getOldPassword(), currentCustomer.getPassword())) {
+            throw new RuntimeException("Password does not match");
+        }
+        currentCustomer.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
+        dao.save(currentCustomer);
     }
 }

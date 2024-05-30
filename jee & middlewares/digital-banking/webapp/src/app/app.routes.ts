@@ -30,6 +30,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
       },
       {
+        path: 'profile',
+        loadComponent: () => import('./views/profile/profile.component').then((m) => m.ProfileComponent)
+      },
+      {
         path: 'customers',
         loadComponent: () => import('./views/customers/customers.component').then(m => m.CustomersComponent),
         data: {

@@ -1,6 +1,8 @@
 package org.mansar.digitalbanking.api;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.mansar.digitalbanking.dto.ChangePasswordDTO;
 import org.mansar.digitalbanking.dto.CustomerDTO;
 import org.mansar.digitalbanking.dto.CustomerDetailsDTO;
 import org.mansar.digitalbanking.dto.NewCustomerDTO;
@@ -44,6 +46,11 @@ public class CustomerAPI {
     @GetMapping("/current")
     public CustomerDTO getCurrent() {
         return customerService.getCurrentCustomerDTO();
+    }
+
+    @PostMapping("/change-password")
+    public void changePassword(@Valid @RequestBody ChangePasswordDTO changePasswordDTO) {
+        customerService.changePassword(changePasswordDTO);
     }
 
     @DeleteMapping("/{customerId}")

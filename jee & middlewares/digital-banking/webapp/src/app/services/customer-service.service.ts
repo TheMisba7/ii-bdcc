@@ -29,4 +29,11 @@ export class CustomerServiceService {
   getConnectedCustomer() {
     return this.https.get<Customer>(this.host + "/current")
   }
+
+  changePassword(oldPassword: string, newPassword: string) {
+    return this.https.post(this.host + "/change-password", {
+      "oldPassword": oldPassword,
+      "newPassword": newPassword
+    })
+  }
 }

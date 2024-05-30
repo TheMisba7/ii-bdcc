@@ -14,8 +14,6 @@ export class AuthGuard{
   constructor(private authService: AuthService, private router: Router) {
   }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): MaybeAsync<GuardResult> {
-    console.log(this.authService.isAuthenticated)
-    console.log(this.authService.token)
     if (this.authService.isAuthenticated) {
       return true
     } else {

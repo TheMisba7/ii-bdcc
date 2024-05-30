@@ -1,0 +1,88 @@
+<c-container>
+  <mat-card>
+    <mat-card-header>
+      Profile
+    </mat-card-header>
+    <mat-card-content>
+      <c-row>
+        <c-col></c-col>
+        <c-col lg="1" xs="10">
+          <c-avatar
+            shape="rounded-1"
+            [size]="'xl'"
+            src="./assets/default.png"
+            textColor="primary"
+          />
+        </c-col>
+        <c-col></c-col>
+      </c-row>
+      <c-row>
+        <table cTable>
+          <tr>
+            <th>Id</th>
+            <td>{{authService.customer.id}}</td>
+          </tr>
+          <tr>
+            <th>firstname</th>
+            <td>{{authService.customer.firstname}}</td>
+          </tr>
+          <tr>
+            <th>Lastname</th>
+            <td>{{authService.customer.lastname}}</td>
+          </tr>
+          <tr>
+            <th>Email</th>
+            <td>{{authService.customer.email}}</td>
+          </tr>
+          <tr>
+            <th>Created date</th>
+            <td>{{authService.customer.createdAt}}</td>
+          </tr>
+        </table>
+      </c-row>
+      <c-row>
+        <c-col lg="4" xs="12">
+          <button cButton (click)="toggleModal()">
+            Change Password
+          </button>
+        </c-col>
+      </c-row>
+    </mat-card-content>
+
+  </mat-card>
+</c-container>
+
+<c-modal id="liveDemoModal" [visible]="visible">
+  <c-modal-header>
+    <h5 cModalTitle>Change Password</h5>
+  </c-modal-header>
+  <c-modal-body>
+    <form [formGroup]="changePasswordForm" cForm>
+      <div class="mb-3">
+        <label cLabel for="oldPassword">Old Password</label>
+        <input cFormControl
+               formControlName="oldPassword"
+               id="oldPassword"
+               type="password"
+               min="1"
+               required
+        />
+      </div>
+      <div class="mb-3">
+        <label cLabel for="password">New Password</label>
+        <input cFormControl
+               formControlName="newPassword"
+               id="password"
+               type="password"
+               required
+        />
+      </div>
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleModal()" cButton color="secondary">
+      Close
+    </button>
+    <button cButton color="primary" type="submit" (click)="confirmChangePassword()">Submit</button>
+  </c-modal-footer>
+</c-modal>
