@@ -1,10 +1,10 @@
 import {Injectable, OnInit} from '@angular/core';
 import {Customer} from "../../model/model";
 import {HttpClient} from "@angular/common/http";
-import {result} from "lodash-es";
-import {tap} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 import {CustomerServiceService} from "./customer-service.service";
 import {Router} from "@angular/router";
+import {Observable, of, Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -43,15 +43,11 @@ export class AuthService implements OnInit{
   }
 
   private getConnectedUser() {
-    this.customerService.getConnectedCustomer()
-      .subscribe({
-        next: cust => {
-          this._customer = cust
-        },
-        error: err => {
-          console.log(err)
-        }
-      })
+    return this.customerService.getConnectedCustomer()
+      .pipe(map( cust => {
+        this._customer = cust
+        return cust
+      }))
   }
   public get expiresIn(): number {
     return this._expiresIn;
@@ -70,21 +66,30 @@ export class AuthService implements OnInit{
     return this._isAuthenticated;
   }
 
-  public isAdmin(): boolean {
+  public isAdmin(): Observable<boolean> {
     return this.isRolePresent("ADMIN")
   }
 
-  private isRolePresent(roleName: string): boolean {
+  private isRolePresent(roleName: string): Observable<boolean> {
     if (this.isAuthenticated && this._customer == null) {
-      this.getConnectedUser()
+      return this.getConnectedUser()
+        .pipe(
+          map(re => {
+            for (let role of this._customer.roles) {
+              if (roleName === role.name)
+                return true
+            }
+            return false
+          })
+        )
     }
     if (this._isAuthenticated && this._customer != null) {
       for (let role of this._customer.roles) {
         if (roleName === role.name)
-          return true
+          return of(true)
       }
     }
-    return false
+    return of(false)
   }
   isCustomer() {
    return this.isRolePresent("CUSTOMER")

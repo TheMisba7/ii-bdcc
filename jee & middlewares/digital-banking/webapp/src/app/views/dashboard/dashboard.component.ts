@@ -1,4 +1,4 @@
-import {NgIf, NgStyle} from '@angular/common';
+import {AsyncPipe, NgIf, NgStyle} from '@angular/common';
 import { Component, OnInit} from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -32,7 +32,7 @@ import {cilList, cilMoney, cilPeople, cilTransfer} from "@coreui/icons";
   templateUrl: 'dashboard.component.html',
   styleUrls: ['dashboard.component.scss'],
   standalone: true,
-  imports: [TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, CardHeaderComponent, TableDirective, AvatarComponent, NgIf, WidgetStatFComponent, TemplateIdDirective, ContainerComponent, MatLabel, CardHeaderActionsComponent, RouterLink]
+  imports: [TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, CardHeaderComponent, TableDirective, AvatarComponent, NgIf, WidgetStatFComponent, TemplateIdDirective, ContainerComponent, MatLabel, CardHeaderActionsComponent, RouterLink, AsyncPipe]
 })
 export class DashboardComponent implements OnInit {
   public dashboard!: Dashboard;
