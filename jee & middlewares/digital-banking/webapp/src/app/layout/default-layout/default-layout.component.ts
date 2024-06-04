@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgScrollbar } from 'ngx-scrollbar';
 
@@ -16,7 +16,8 @@ import {
 } from '@coreui/angular';
 
 import { DefaultFooterComponent, DefaultHeaderComponent } from './';
-import { navItems } from './_nav';
+import {customerDashboard, navItems} from './_nav';
+import {AuthService} from "../../services/auth.service";
 
 function isOverflown(element: HTMLElement) {
   return (
@@ -49,11 +50,17 @@ function isOverflown(element: HTMLElement) {
   ]
 })
 export class DefaultLayoutComponent {
-  public navItems = navItems;
-
-  onScrollbarUpdate($event: any) {
-    // if ($event.verticalUsed) {
-    // console.log('verticalUsed', $event.verticalUsed);
-    // }
+  public navItems!: any;
+  constructor(private authService: AuthService) {
+    this.authService.isAdmin().subscribe((isAdmin: boolean) => {
+      if (isAdmin) {
+        this.navItems = navItems;
+        console.log("yes he's an admin");
+      } else {
+        this.navItems = customerDashboard;
+        console.log("no he's not");
+      }
+    });
   }
+
 }

@@ -5,8 +5,7 @@
     </mat-card-header>
     <mat-card-content>
       <c-row>
-        <c-col></c-col>
-        <c-col lg="1" xs="10">
+        <c-col lg="2" style="margin-top: 50px; margin-left: 20px">
           <c-avatar
             shape="rounded-1"
             [size]="'xl'"
@@ -14,10 +13,7 @@
             textColor="primary"
           />
         </c-col>
-        <c-col></c-col>
-      </c-row>
-      <c-row>
-        <table cTable>
+        <c-col>     <table cTable>
           <tr>
             <th>Id</th>
             <td>{{authService.customer.id}}</td>
@@ -38,8 +34,9 @@
             <th>Created date</th>
             <td>{{authService.customer.createdAt}}</td>
           </tr>
-        </table>
+        </table></c-col>
       </c-row>
+
       <c-row>
         <c-col lg="4" xs="12">
           <button cButton (click)="toggleModal()">
