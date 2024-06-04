@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CustomerAPI {
     private final CustomerService customerService;
-
     @GetMapping
+    @Secured("ROLE_ADMIN")
     public PageContainer<CustomerDTO> getCustomerPage(@RequestParam(defaultValue = "1") int page,
                                                       @RequestParam(defaultValue = "100") int size,
                                                       @RequestParam(required = false , defaultValue = "") String keyword) {

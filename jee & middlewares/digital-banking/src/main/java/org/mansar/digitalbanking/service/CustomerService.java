@@ -12,6 +12,7 @@ import org.mansar.digitalbanking.dto.PageContainer;
 import org.mansar.digitalbanking.dto.mapper.BankAccountMapper;
 import org.mansar.digitalbanking.dto.mapper.CustomerMapper;
 import org.mansar.digitalbanking.exception.CustomerNotFoundException;
+import org.mansar.digitalbanking.exception.UnauthorizedException;
 import org.mansar.digitalbanking.model.BankAccount;
 import org.mansar.digitalbanking.model.Customer;
 import org.mansar.digitalbanking.model.Email;
@@ -78,6 +79,10 @@ public class CustomerService extends AbstractService<CustomerDTO, Customer, Cust
     }
 
     public CustomerDetailsDTO getCustomerDetails(long customerId) {
+        Customer customer = getCurrentCustomer();
+        if (!customer.isAdmin() || !customer.getId().equals(customerId)) {
+            throw new UnauthorizedException("Operation is restricted");
+        }
         return new CustomerDetailsDTO(
                 getCustomerById(customerId),
                 getCustomerAccounts(customerId)
@@ -85,7 +90,6 @@ public class CustomerService extends AbstractService<CustomerDTO, Customer, Cust
     }
 
     private List<BankAccountDTO> getCustomerAccounts(long customerId) {
-        //todo verify that the connected customer id is the same as this id or the connected user id is admin
         List<BankAccount> bankAccounts = bankAccountDao.findByCustomerId(customerId);
         return bankAccountMapper.toDTO(bankAccounts);
     }
