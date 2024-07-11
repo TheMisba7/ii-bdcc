@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {"/chat": (context) => ChatBot()},
       theme: ThemeData(
-          primaryColor: Colors.deepOrange, indicatorColor: Colors.white),
+          primaryColor: Colors.lightBlueAccent, indicatorColor: Colors.white),
       home: HomePage(),
     );
   }

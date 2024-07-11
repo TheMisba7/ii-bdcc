@@ -16,7 +16,6 @@ class _ChatBotState extends State<ChatBot> {
   ];
 
   TextEditingController queryController = TextEditingController();
-
   ScrollController scrollController = ScrollController();
   var apiKey = const String.fromEnvironment('API_KEY');
 
