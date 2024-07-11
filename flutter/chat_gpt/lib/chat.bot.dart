@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class ChatBot extends StatefulWidget {
   ChatBot({super.key});
@@ -98,6 +101,40 @@ class _ChatBotState extends State<ChatBot> {
                     onPressed: () {
                       String query = queryController.text;
                       queryController.clear();
+                      String response = "Response to $query";
+                      var url =
+                          Uri.https("api.openai.com", "/v1/chat/completions");
+                      Map<String, String> userHeaders = {
+                        "Content-type": "application/json",
+                        "Authorization":
+                            "Bearer sk-proj-JnPUnjdAtOC4CLb14GP6T3BlbkFJMjVTD0DYE46XpCMMTbI3"
+                      };
+                      http
+                          .post(url,
+                              headers: userHeaders,
+                              body: json.encode({
+                                "model": "gpt-3.5-turbo-1106",
+                                "messages": [
+                                  {"role": "user", "content": "$query"}
+                                ],
+                                "temperature": 0.7
+                              }))
+                          .then((resp) {
+                        var result = json.decode(resp.body);
+                        print(result);
+                        setState(() {
+                          data.add({
+                            "message": result['choices'][0]['message']
+                                ['content'],
+                            "type": "assistant"
+                          });
+                          scrollController.jumpTo(
+                              scrollController.position.maxScrollExtent + 60);
+                        });
+                      }, onError: (err) {
+                        print("-------------------- ERROR------------");
+                        print(err);
+                      });
                       setState(() {
                         data.add({"message": query, "type": "user"});
                       });
