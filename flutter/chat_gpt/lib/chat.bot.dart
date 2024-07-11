@@ -12,15 +12,13 @@ class ChatBot extends StatefulWidget {
 
 class _ChatBotState extends State<ChatBot> {
   List<dynamic> data = [
-    {'message': 'Hello', 'type': 'user'},
-    {'message': 'How can i help you', 'type': 'assistant'},
-    {'message': 'Give me information about you', 'type': 'user'},
-    {'message': 'I am a helpful assistant', 'type': 'assistant'},
+    {'message': 'Hello! How can I assist you today?', 'type': 'assistant'},
   ];
 
   TextEditingController queryController = TextEditingController();
 
   ScrollController scrollController = ScrollController();
+  var apiKey = const String.fromEnvironment('API_KEY');
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +47,13 @@ class _ChatBotState extends State<ChatBot> {
                             Expanded(
                               child: Card(
                                 child: Container(
-                                  child: Text(
-                                    data[index]['message'],
-                                  ),
                                   padding: EdgeInsets.all(10),
                                   color: (isUser)
                                       ? Color.fromARGB(50, 0, 255, 0)
                                       : Colors.white,
+                                  child: Text(
+                                    data[index]['message'],
+                                  ),
                                 ),
                               ),
                             ),
@@ -68,7 +66,7 @@ class _ChatBotState extends State<ChatBot> {
                         trailing: (isUser) ? Icon(Icons.person_2) : null,
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       height: 1,
                     ),
                   ],
@@ -102,17 +100,17 @@ class _ChatBotState extends State<ChatBot> {
                       String query = queryController.text;
                       queryController.clear();
                       String response = "Response to $query";
-                      var url =
-                          Uri.https("api.openai.com", "/v1/chat/completions");
+                      var url = Uri.https(
+                          "api.groq.com", "/openai/v1/chat/completions");
                       Map<String, String> userHeaders = {
                         "Content-type": "application/json",
-                        "Authorization": "Bearer "
+                        "Authorization": "Bearer $apiKey"
                       };
                       http
                           .post(url,
                               headers: userHeaders,
                               body: json.encode({
-                                "model": "gpt-3.5-turbo-1106",
+                                "model": "mixtral-8x7b-32768",
                                 "messages": [
                                   {"role": "user", "content": "$query"}
                                 ],
