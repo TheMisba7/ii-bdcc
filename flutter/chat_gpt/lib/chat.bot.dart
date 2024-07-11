@@ -106,8 +106,7 @@ class _ChatBotState extends State<ChatBot> {
                           Uri.https("api.openai.com", "/v1/chat/completions");
                       Map<String, String> userHeaders = {
                         "Content-type": "application/json",
-                        "Authorization":
-                            "Bearer sk-proj-JnPUnjdAtOC4CLb14GP6T3BlbkFJMjVTD0DYE46XpCMMTbI3"
+                        "Authorization": "Bearer "
                       };
                       http
                           .post(url,
