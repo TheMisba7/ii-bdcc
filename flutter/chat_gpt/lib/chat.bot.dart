@@ -15,7 +15,7 @@ class _ChatBotState extends State<ChatBot> {
     {'message': 'Hello', 'type': 'user'},
     {'message': 'How can i help you', 'type': 'assistant'},
     {'message': 'Give me information about you', 'type': 'user'},
-    {'message': 'I am a helful assistant', 'type': 'assistant'},
+    {'message': 'I am a helpful assistant', 'type': 'assistant'},
   ];
 
   TextEditingController queryController = TextEditingController();
